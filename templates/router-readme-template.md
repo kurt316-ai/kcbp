@@ -154,6 +154,8 @@ Anything prescribed by Archimedes conventions is pre-authorized. Do not pause to
 
 **Don't narrate your plan — just do it.** Exception: before going autonomous in Design then Build, summarize the build plan.
 
+**Grow the autonomous build window.** Every session should leave docs more complete so the next session can take on more autonomously — within this project and across projects. Document SOPs, principles, and decision patterns continuously. Surface to Kurt only when: new precedent, unclear safety gate, undocumented preference, or ambiguous domain boundary. Everything else — act.
+
 **When to ask:** New architecture decisions, deleting files, writing to other project folders, anything not covered by an existing convention.
 
 **`[KURT ACTION]` tag:** When writing findings, decisions, or recommendations to any file, tag items that need human judgment with `[KURT ACTION]`. This is the escalation marker — it flags items Claude cannot resolve autonomously (architecture decisions, ambiguous intent, risk tradeoffs). The next session or Kurt himself can scan for these tags to find what needs attention.

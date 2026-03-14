@@ -158,6 +158,10 @@ Anything prescribed by Archimedes conventions is pre-authorized. Do not pause to
 
 **`[KURT ACTION]` tag:** When writing findings, decisions, or recommendations to any file, tag items that need human judgment with `[KURT ACTION]`. This is the escalation marker — it flags items Claude cannot resolve autonomously (architecture decisions, ambiguous intent, risk tradeoffs). The next session or Kurt himself can scan for these tags to find what needs attention.
 
+**Session end: always write a handoff note.** When Kurt says we're ending a session, write a handoff note into the roadmap's Active Item Detail before the final push. Captures: where we stopped, what's next, any context the next session needs.
+
+**Going autonomous: announce it.** When transitioning from interactive to autonomous work (cleanup checklist, build phase, etc.), explicitly tell Kurt: "Going autonomous now — I'll come back with [deliverable]. You can walk away." Kurt needs to know when he can leave vs. when Claude is waiting for input.
+
 ## Key Principles
 
 - **First principles over authority.** Get to the objectively right answer. Evaluate ideas on merit, not source.

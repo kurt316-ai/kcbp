@@ -36,7 +36,7 @@ Ask Kurt both questions, capture the answers, then proceed autonomously.
 - [ ] If the lesson is something Archimedes should act on, also append an entry to `archimedes-mailbox/outbox.md` with status `unread`
 - [ ] "Anything else I should know before I run the rest of the checklist?"
 
-**After this point, Claude runs autonomously. No more questions.**
+**After Kurt responds, explicitly announce:** "Going autonomous now — I'll come back with a summary and push block. You can walk away." Kurt needs a clear signal for when he can leave vs. when Claude is waiting for input. Then run Sections 2+ without further questions.
 
 ---
 

@@ -344,6 +344,7 @@ Defensive practices so push blocks don't fail mid-chain:
 - **Always start with `cd` to the Mac-side path.** Kurt may have closed terminal or be in a different directory. The Mac path is in the project CLAUDE.md under "Working Folder."
 - **Use `cd ../sibling` for multi-repo projects**, not a second absolute `cd`. The sibling folder structure (`output/` and `for-claude/`) means relative navigation is reliable once you're in the parent.
 - **Add specific files, not `git add -A`**, unless you're sure every change should be committed. Listing files explicitly prevents accidentally staging secrets or temporary files.
+- **Never include gitignored files in push blocks.** `CLAUDE.md` is gitignored in every project (local-only router). Including it in `git add` causes the command to fail and aborts the entire chained push block. Before building a push block, mentally filter the changed-files list against `.gitignore`. Common gitignored files: `CLAUDE.md`, `.env`, `node_modules/`, `__pycache__/`.
 - **If files were deleted via Bash `rm`**, don't use `git rm` in the push block — the file is already gone from disk and `git rm` will fail. Instead, use `git add <folder>/` scoped to the affected directory (picks up both additions and deletions) or `git add -u <file>` for specific tracked files. See anti-pattern #21.
 
 When Kurt pastes terminal output back into Cowork, it means something went wrong — read the error, fix the command, and give a corrected single block.

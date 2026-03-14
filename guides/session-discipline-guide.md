@@ -34,31 +34,77 @@ Claude performs dramatically better when it can verify its own work — run test
 
 ---
 
-## The Two Workflow Modes
+## Session Types
 
-Archimedes supports two modes. Session discipline differs for each.
+Archimedes defines four session types that map to phases of the work cycle (`Explore → Plan → [Fresh] → Implement → Verify`). Each type has a distinct purpose, a defined output, and different discipline priorities. The close routine recommends which type comes next (see § End-of-Session Protocol).
 
-### Design then Build (Opus)
+### Design Session (Kurt + Opus)
 
-Kurt and Claude talk through the design, debate tradeoffs, make decisions. Once aligned, Claude goes autonomous for 15+ minutes. Kurt comes back to review and push.
+Kurt and Claude talk through architecture, debate tradeoffs, make decisions. This is Kurt's design time — Claude is a collaborator, not an executor.
 
+**Output:** Decisions captured in roadmap + build brief (see § Autonomous Build Protocol).
 **Discipline priorities:**
-- Capture all design decisions in the roadmap immediately — before building
+- Capture all design decisions in the roadmap immediately — before anything else
+- Use the "Interview Me" technique for non-trivial features
+- Don't start building during a design session — the design context will be dead weight during implementation
+- End with a clear build brief that a fresh session can execute from
+
+### Plan Session (Opus, solo or with Kurt)
+
+Explore the codebase, trace dependencies, map existing patterns, decompose into subtasks. Can be the first half of a design session, or standalone when the codebase is complex enough that exploration alone consumes significant context.
+
+**Output:** Structured implementation plan — subtasks, file list, dependencies, risks, "done" criteria.
+**Discipline priorities:**
+- Front-load file reads: load what you need to understand the problem
+- Scout subagent if exploration is heavy (protects orchestrator context)
+- The plan is the deliverable — write it to a checkpoint file or the roadmap, not just conversation
+- Don't implement during planning. Planning context is dead weight during implementation.
+
+### Build Session (Opus autonomous or Sonnet pair)
+
+Starts from a build brief or plan — not from scratch. Two sub-modes:
+
+**Autonomous Build (Opus)** — Kurt walks away, Claude executes from the brief. See § Autonomous Build Protocol for the full entry/during/exit protocol.
 - Front-load file reads: load what you need for the build, then stop reading
 - Don't ask Kurt questions you can answer from existing files
-- Checkpoint if the autonomous build will be long (30+ min of Claude work)
-- End with a clean state: files saved, push command ready, questions listed
+- Checkpoint every 30 min of Claude work
+- End with structured completion block + push command
 
-### Pair Build (Sonnet)
-
-Kurt and Claude work shoulder-to-shoulder. Fast iterations, quick tests, rapid debugging.
-
-**Discipline priorities:**
+**Pair Build (Sonnet)** — Kurt and Claude work shoulder-to-shoulder. Fast iterations, quick tests, rapid debugging.
 - Keep context lean — don't load architecture docs for a CSS fix
-- Short responses. Don't explain what you're doing unless asked.
+- Short responses. Don't explain what you're doing unless asked
 - Test fast, fail fast. Don't over-plan.
 - Save files frequently — Kurt may want to push mid-session
 - Capture lessons only at the end, not between every iteration
+
+### Review Session (fresh context, adversarial)
+
+A separate session reviews build output with no builder bias. Fresh context catches what the builder's biased context misses.
+
+**Output:** Review findings, issues list, suggested fixes.
+**Discipline priorities:**
+- Do NOT load the build session's conversation or planning context — the point is fresh eyes
+- Read the code/files directly, not a summary of what was built
+- Use adversarial framing: "What's wrong with this?" not "Does this look okay?"
+- Flag issues with severity (blocking vs. improvement vs. nit)
+- Can be run as a subagent from the orchestrating session
+
+### Choosing a Session Type
+
+| Situation | Session type | Why |
+|-----------|-------------|-----|
+| New feature, unclear requirements | Design | Need to think before planning |
+| Complex codebase, many files to explore | Plan | Exploration will consume context |
+| Build brief exists, scope is clear | Build (autonomous) | Execute, don't re-discuss |
+| Small fix, quick iteration | Build (pair) | Overhead of plan session not worth it |
+| Large change set just landed | Review | Fresh eyes catch what builders miss |
+| Bug report, need to investigate | Plan → Build | Explore first, then fix in fresh session |
+
+### The `[Fresh]` Boundary
+
+Starting a fresh session between planning and implementation is **the default for non-trivial work**. The planning phase consumed context; the execution phase starts completely clean with only the refined brief. This isn't losing progress — it's sharpening the tool.
+
+Skip `[Fresh]` only when: the task is small enough that planning didn't consume meaningful context (rough threshold: under ~15 exchanges of exploration/planning).
 
 ---
 
@@ -151,6 +197,58 @@ Don't write a checkpoint when:
 - You just wrote one recently
 
 Checkpoints are disposable. Delete them when the task is complete.
+
+---
+
+## Autonomous Build Protocol
+
+The autonomous build window is the highest-leverage time in the workflow — Claude executes at full capacity while Kurt does other things. The protocol has three phases: entry, during, and exit. The goal is to make the window as long and productive as possible by removing ambiguity about what's being built and what "done" looks like.
+
+### Entry Gate
+
+The transition from Kurt's design time to Claude's autonomous build time is marked by a **build brief** — a short artifact (5–15 lines) that Claude writes before going autonomous. This is the last human touchpoint.
+
+**Build brief contents:**
+- **What's being built** — one sentence
+- **Files to create or modify** — explicit list
+- **"Done" looks like** — observable criteria (tests pass, file exists, output matches spec)
+- **Known risks or open questions** — anything that might require Kurt's input mid-build
+- **Estimated scope** — small (< 15 min), medium (15–45 min), large (45+ min)
+
+**Trigger:** Kurt says "go build", "you've got it", "go autonomous", or equivalent. Or Claude recognizes the design discussion is complete and proposes the brief with a NACK: "Going autonomous now — here's the build brief. I'll come back with [deliverable]. You can walk away."
+
+**Where the brief lives:** For small/medium builds, write it into the roadmap's Active Item Detail. For large builds, write a checkpoint file (`CHECKPOINT-[topic].md`).
+
+### During Build
+
+- **Checkpoint every 30 minutes** of Claude work. Update the brief with progress: what's done, what's left, any surprises.
+- **If a subtask is cleanly separable and the session is getting heavy** — close the session and start a fresh build session from the checkpoint. Don't marathon past the 50% context cliff.
+- **If you hit an open question from the brief** — make the best judgment call from existing files and conventions, note it in the checkpoint as `[KURT ACTION]`, and keep building. Don't block the entire build on one question.
+- **Don't re-read the design context.** You have the brief. If you need to explore further, use a scout subagent to contain the context cost.
+
+### Exit — Completion Block
+
+When the build is done (or the session needs to close), produce a **structured completion block**:
+
+```
+## Build Complete: [topic]
+**Status:** done | partial (explain what's left)
+**What changed:** [list of files created/modified]
+**Verification:** [tests passed / manual check / screenshot / unverified — explain why]
+**Open items:** [anything that needs Kurt's review or next-session attention]
+**[KURT ACTION]:** [if any decisions need human judgment]
+```
+
+This goes into the roadmap's Active Item Detail (replacing the build brief), followed by the push block. Kurt comes back to a clear picture — not a wall of conversation history.
+
+### When to Break a Large Build into Sub-Sessions
+
+| Signal | Action |
+|--------|--------|
+| Build brief lists 5+ distinct subtasks | Consider splitting into multiple build sessions |
+| Estimated scope is "large" (45+ min) | Checkpoint at 30 min, evaluate whether to continue or fresh-start |
+| Context is past ~40% and significant work remains | Close, push, start fresh build session from checkpoint |
+| You've hit 3+ `[KURT ACTION]` items | Stop building, present findings, let Kurt re-scope |
 
 ---
 
@@ -265,11 +363,34 @@ When Kurt pastes terminal output back into Cowork, it means something went wrong
 
 Claude owns this protocol — Kurt should never have to ask for each step. When Kurt signals any of the above, Claude runs the close routine without being prompted.
 
-**The three steps, in order:**
+**The four steps, in order:**
 
 1. **Light cleanup** (§0–4 of cleanup checklist) — dates, stale refs, naming drift. Takes 2–3 min. May surface items worth noting in step 2.
 2. **Handoff note** — write into the roadmap's Active Item Detail. Captures: where we stopped, what's next, any context the next session needs. This is the most important step — it's what makes the next session productive immediately.
-3. **Push check** — if there are changes worth persisting, build and present a single copy-paste push block (`&&` within each repo, `;` between repos). If nothing meaningful changed since last push, say so and skip.
+3. **Recommended next session type** — evaluate where we are in the work cycle and recommend which session type comes next. Write the recommendation into the handoff note. The four session types (Design → Plan → Build → Review) form a natural progression, but sessions can skip steps or repeat — the recommendation is based on where the work actually is, not rigid sequence.
+4. **Push check** — if there are changes worth persisting, build and present a single copy-paste push block (`&&` within each repo, `;` between repos). If nothing meaningful changed since last push, say so and skip.
+
+### How to Recommend the Next Session Type
+
+Evaluate the current state against the work cycle and recommend the most productive next step:
+
+| Current state | Recommended next | Reasoning |
+|--------------|-----------------|-----------|
+| Requirements unclear, scope not defined | **Design** | Need Kurt's input before planning |
+| Design decisions made, codebase unexplored | **Plan** | Need to explore before building |
+| Plan exists, scope is clear | **Build** (autonomous) | Execute from the plan |
+| Build complete, not yet reviewed | **Review** | Fresh eyes before moving on |
+| Review found issues | **Build** (pair or autonomous) | Fix what review surfaced |
+| Everything clean, cycle complete | **Design** (next feature) | Start the next work cycle |
+
+**Format in the handoff note:**
+```
+**Recommended next session:** [Type] — [one-sentence reason]
+```
+
+Example: `**Recommended next session:** Build (autonomous) — plan is complete, build brief ready in checkpoint, scope is medium (~30 min).`
+
+Kurt may override this — he might do something else first, or conditions may change. The recommendation ensures the work cycle stays visible and intentional, not implicit.
 
 **When to use full cleanup instead:** Major milestones, large change sets across many files, or when Kurt explicitly asks for it. Most sessions end with just the close routine — it's the default.
 

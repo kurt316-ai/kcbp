@@ -1,47 +1,51 @@
 # Archimedes — Multi-Task Decision Guide
 
 **Audience:** `for-claude`
-**Last updated:** Fri 13 Mar 2026
+**Last updated:** Sat 14 Mar 2026
 **Source:** Incorporates patterns from [Claude Code Best Practices](https://code.claude.com/docs/en/best-practices)
 
 When should a project use multiple Claude sessions, which models for which work, and how should they communicate? This guide helps you decide.
 
 ---
 
-## Two Workflow Modes
+## Session Types and the Work Cycle
 
-Before deciding on multi-task, understand the two fundamental modes of working with Claude:
+Before deciding on multi-task, understand the four session types and how they compose. Full details in `session-discipline-guide.md` § Session Types.
 
-### Design then Build (Opus)
+### The Four Session Types
 
-Kurt and Claude talk through the design — debating tradeoffs, making decisions, aligning on the plan. Once aligned, Claude goes autonomous for 15+ minutes: scaffolding, building, testing, iterating. Kurt comes back to review and push.
+| Type | Who | Purpose | Output |
+|------|-----|---------|--------|
+| **Design** | Kurt + Opus | Discuss architecture, debate tradeoffs, make decisions | Decisions in roadmap + build brief |
+| **Plan** | Opus (solo or with Kurt) | Explore codebase, decompose tasks, map dependencies | Structured implementation plan |
+| **Build** | Opus autonomous or Sonnet pair | Execute from plan/brief | Implemented code + verification results |
+| **Review** | Fresh context, adversarial | Check build output with no builder bias | Issues list + suggested fixes |
 
-**When Archimedes is mature:** The autonomous window keeps growing. Claude doesn't stop to ask about naming conventions, deployment targets, or API patterns — it's all pre-loaded. Kurt's time is spent on design, not hand-holding.
+### The Work Cycle
 
-**Key disciplines:**
-- Capture all decisions in the roadmap before building
-- Checkpoint if the autonomous stretch will be long
-- End with files saved, push command ready, questions listed
+```
+Design → Plan → [Fresh] → Build → Review → Improve
+```
 
-### Pair Build (Sonnet)
+The `[Fresh]` boundary — starting a new session between planning and implementation — is the default for non-trivial work. Planning context is dead weight during implementation.
 
-Kurt and Claude work shoulder-to-shoulder in tight loops. Fast iterations, quick tests, rapid debugging. Sonnet's response speed matters because the feedback cycle is short.
+Not every task requires all phases. Small fixes skip Design and Plan. The close routine evaluates where work is and recommends the next session type.
 
-**When to use:** Component implementation, CSS fixes, debugging, test writing — anything where the conversation is "try this, check result, adjust."
+### Model Selection
 
-**Key disciplines:**
-- Keep context lean — don't load architecture docs for a CSS fix
-- Short responses. Don't explain unless asked.
-- Test fast, fail fast.
-
-### Composing Modes
-
-These aren't mutually exclusive. A typical project session might:
-1. Start in Design then Build (Opus) to plan the feature
-2. Switch to Pair Build (Sonnet) to implement components
-3. Return to Design then Build (Opus) for integration and review
+- **Opus** — Design sessions, Plan sessions, autonomous Build sessions, Review sessions. Where depth, judgment, and long autonomous runs matter.
+- **Sonnet** — Pair Build sessions. Where response speed matters because the feedback cycle is short. Component implementation, CSS fixes, debugging, test writing.
 
 Archimedes enables cold-start model switching — both Opus and Sonnet read the same CLAUDE.md and are instantly productive. No ramp-up penalty.
+
+### Composing Session Types
+
+A typical feature might use:
+1. **Design** (Opus) — scope the feature with Kurt
+2. **Plan** (Opus) — explore codebase, decompose into subtasks
+3. `[Fresh]` — new session
+4. **Build** (Sonnet pair or Opus autonomous) — implement from plan
+5. **Review** (Opus, fresh session) — adversarial check
 
 ---
 

@@ -4,7 +4,7 @@
 **Audience:** `for-claude`
 **Companion doc:** `archimedes-system-guide-for-kurt.md` (project root) Part 3 has human-readable explanations.
 **Prerequisite:** `session-discipline-guide.md` covers session-level behavior (context budget, workflow modes). This guide covers the system-level cycle that sits above any single session.
-**Last updated:** Fri 13 Mar 2026
+**Last updated:** Sat 14 Mar 2026
 **Source:** Incorporates patterns from [Claude Code Best Practices](https://code.claude.com/docs/en/best-practices)
 
 ## When to Load
@@ -42,7 +42,8 @@ Session start (or compaction recovery)
     └─ Session end (Kurt says "close" or equivalent)
         ├─ 1. Light cleanup (dates, stale refs, naming drift)
         ├─ 2. Handoff note in roadmap Active Item Detail
-        ├─ 3. Check if push needed → build push block if yes
+        ├─ 3. Recommended next session type (Design/Plan/Build/Review)
+        ├─ 4. Check if push needed → build push block if yes
         └─ (Aliases: "close", "close session", "run close checklist")
 ```
 
@@ -50,22 +51,26 @@ Session start (or compaction recovery)
 
 ## The Work Cycle
 
-The session lifecycle (above) describes maintenance. The work cycle describes how to approach a non-trivial task within a session. Each phase ideally starts at full context capacity.
+The session lifecycle (above) describes maintenance. The work cycle describes how to approach a non-trivial task across one or more sessions. Each phase ideally starts at full context capacity — which is why the `[Fresh]` boundary exists.
 
 ```
-Explore → Plan → [Fresh] → Implement → Verify → Improve
+Design → Plan → [Fresh] → Build → Review → Improve
 ```
 
-| Phase | What happens | Key principle |
-|-------|-------------|---------------|
-| **Explore** | Read codebase, trace dependencies, map existing patterns. Scout subagent if heavy. | Build understanding before committing to a direction |
-| **Plan** | Scope work, decompose into subtasks, identify risks. Plan mode or structured discussion with Kurt. | Catch misunderstandings before 500 lines in the wrong direction |
-| **[Fresh]** | Start a new session for implementation. The planning phase consumed context; execution starts clean. | Planning context is dead weight during implementation |
-| **Implement** | Build from the plan. Autonomous if Design then Build mode. | Full attention capacity on the actual work |
-| **Verify** | Run tests, review output, adversarial check. Separate session for review avoids builder bias. | Fresh context = no confirmation bias |
-| **Improve** | Update CLAUDE.md with what worked. Capture lessons. Push. | The cycle compounds — each pass improves the next |
+| Phase | Session type | What happens | Key principle |
+|-------|-------------|-------------|---------------|
+| **Design** | Design session | Kurt + Claude discuss architecture, debate tradeoffs, make decisions. | Think before planning |
+| **Plan** | Plan session | Explore codebase, trace dependencies, decompose into subtasks. Scout subagent if heavy. | Catch misunderstandings before 500 lines in the wrong direction |
+| **[Fresh]** | — | Start a new session. Planning context consumed budget; execution starts clean. | Planning context is dead weight during implementation |
+| **Build** | Build session | Execute from the plan/brief. Autonomous (Opus) or pair (Sonnet). | Full attention capacity on the actual work |
+| **Review** | Review session | Fresh context reviews output. Adversarial framing. | Fresh eyes catch what builders miss |
+| **Improve** | Any | Update CLAUDE.md with what worked. Capture lessons. Push. | The cycle compounds — each pass improves the next |
 
-The `[Fresh]` step is optional for small tasks but critical for anything that consumed significant context during planning. The planning phase produces a refined brief; the implementation session starts with only that brief — not the exploration history.
+**Session types are defined in `session-discipline-guide.md` § Session Types.** Each type has defined outputs, discipline priorities, and a chooser table. The close routine recommends which session type comes next (see § Close Routine below).
+
+The `[Fresh]` boundary is **the default for non-trivial work**. Skip it only when the task is small enough that planning didn't consume meaningful context (rough threshold: under ~15 exchanges of exploration/planning).
+
+Not every task requires all phases. Small fixes skip Design and Plan. Well-understood features may skip Design. The close routine evaluates where the work is and recommends the right next step.
 
 **The "interview me" technique:** Before planning, tell Claude "Interview me about this feature." Claude asks clarifying questions that surface requirements you wouldn't have specified — producing dramatically better plans.
 
@@ -111,11 +116,12 @@ Hooks are deterministic scripts that run at specific workflow points — after f
 
 **Trigger:** Kurt says "close", "close session", "run close checklist", "let's wrap up", or "I'm done."
 **Time:** 3–5 minutes.
-**What it covers:** Three steps, in order:
+**What it covers:** Four steps, in order:
 
 1. **Light cleanup** — dates, stale refs, naming drift (cleanup checklist §0–4). May surface items worth noting in step 2.
 2. **Handoff note** — write into roadmap Active Item Detail. Where we stopped, what's next, any context the next session needs.
-3. **Push check** — if there are changes worth persisting, build and present the push block. If nothing meaningful changed, skip.
+3. **Recommended next session type** — evaluate where the work is in the cycle (Design → Plan → Build → Review) and recommend which session type comes next. Write the recommendation into the handoff note. See `session-discipline-guide.md` § How to Recommend the Next Session Type.
+4. **Push check** — if there are changes worth persisting, build and present the push block. If nothing meaningful changed, skip.
 
 The close routine is the **standard way sessions end.** Full cleanup (all 12 sections) is reserved for major milestones or when Kurt explicitly asks for it. Most sessions don't need a full cleanup at close — the light cleanup + handoff + push is sufficient.
 

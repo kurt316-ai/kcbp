@@ -11,7 +11,7 @@ This checklist has two modes. Every section is tagged **[Light]**, **[Full]**, o
 | Mode | When to run | Time | What it covers |
 |---|---|---|---|
 | **Light** | After every compaction recovery. Also after completing a major task mid-session. | 2–3 min | Context preservation, roadmap sync, self-check. "Did we lose anything?" |
-| **Close** | End of session ("close" or equivalent). | 3–5 min | Light cleanup + handoff note in roadmap + push check. The default session-end. |
+| **Close** | End of session ("close" or equivalent). | 3–5 min | Light cleanup + handoff note in roadmap + recommend next session type + push check. The default session-end. |
 | **Full** | Before major push with many changes. When Kurt asks for it. | 10–15 min | Everything in Light, plus file inventory, naming, style, stale content, repo health. "Is the project clean?" |
 
 **Natural triggers:**

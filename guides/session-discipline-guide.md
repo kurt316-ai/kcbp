@@ -259,17 +259,21 @@ When Kurt pastes terminal output back into Cowork, it means something went wrong
 
 ---
 
-## End-of-Session Protocol
+## End-of-Session Protocol — The Close Routine
 
-Claude owns this protocol — Kurt should never have to ask for it. When Kurt signals "that's it," "let's wrap up," "push," or "I'm done," Claude runs the full cleanup and delivers the push block without being prompted for each step.
+**Aliases:** "close", "close session", "run close checklist", "let's wrap up", "I'm done", "that's it"
 
-1. **All files saved.** Nothing exists only in conversation that should be in a file.
-2. **Roadmap updated.** Phase status, completed items, new decisions.
-3. **Lessons learned captured.** Anything worth preserving from this session.
-4. **Push command ready.** Single copy-paste block. `&&` within each repo, `;` between repos. Never two separate code fences.
-5. **Questions and next steps listed.** What should the next session do first?
+Claude owns this protocol — Kurt should never have to ask for each step. When Kurt signals any of the above, Claude runs the close routine without being prompted.
 
-If the cleanup gets skipped (roadmap not updated, dates stale, no push block), that's an anti-pattern — improve the convention, don't add a manual step for Kurt.
+**The three steps, in order:**
+
+1. **Light cleanup** (§0–4 of cleanup checklist) — dates, stale refs, naming drift. Takes 2–3 min. May surface items worth noting in step 2.
+2. **Handoff note** — write into the roadmap's Active Item Detail. Captures: where we stopped, what's next, any context the next session needs. This is the most important step — it's what makes the next session productive immediately.
+3. **Push check** — if there are changes worth persisting, build and present a single copy-paste push block (`&&` within each repo, `;` between repos). If nothing meaningful changed since last push, say so and skip.
+
+**When to use full cleanup instead:** Major milestones, large change sets across many files, or when Kurt explicitly asks for it. Most sessions end with just the close routine — it's the default.
+
+If the close routine gets skipped (roadmap not updated, dates stale, no push block), that's an anti-pattern — improve the convention, don't add a manual step for Kurt.
 
 ### Human Input First, Then Autonomous
 

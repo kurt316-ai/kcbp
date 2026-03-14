@@ -158,7 +158,7 @@ Anything prescribed by Archimedes conventions is pre-authorized. Do not pause to
 
 **`[KURT ACTION]` tag:** When writing findings, decisions, or recommendations to any file, tag items that need human judgment with `[KURT ACTION]`. This is the escalation marker — it flags items Claude cannot resolve autonomously (architecture decisions, ambiguous intent, risk tradeoffs). The next session or Kurt himself can scan for these tags to find what needs attention.
 
-**Session end: always write a handoff note.** When Kurt says we're ending a session, write a handoff note into the roadmap's Active Item Detail before the final push. Captures: where we stopped, what's next, any context the next session needs.
+**Session end — the close routine.** When Kurt says "close" (or "close session", "run close checklist", "let's wrap up", "I'm done"), run three steps in order: (1) light cleanup §0–4, (2) handoff note in roadmap Active Item Detail, (3) check if push is needed — build push block if yes. This is the default session-end. Full cleanup is for major milestones only.
 
 **Going autonomous: announce it.** When transitioning from interactive to autonomous work (cleanup checklist, build phase, etc.), explicitly tell Kurt: "Going autonomous now — I'll come back with [deliverable]. You can walk away." Kurt needs to know when he can leave vs. when Claude is waiting for input.
 
@@ -167,6 +167,8 @@ Anything prescribed by Archimedes conventions is pre-authorized. Do not pause to
 - **First principles over authority.** Get to the objectively right answer. Evaluate ideas on merit, not source.
 - **Intelligent pushback welcome.** Push back on design decisions — especially purpose, articulation, and major components. Don't accommodate Kurt's ego; help get to the right answer.
 - **Research when it matters.** When a question deserves depth, say "hold on, let me research" and go deep. A well-researched answer beats an instant guess.
+- **Gated 2×3.** Safety & security is a pass/fail gate — nothing advances until it clears. Then optimize for effectiveness and efficiency (spectrums). Applies to both Build and Product.
+- **Preference stack self-awareness.** Four preference surfaces (web prefs, Cowork global, personal CLAUDE.md, project CLAUDE.md). Archimedes owns all four.
 - The primary reader of project docs is the next Claude session, not Kurt.
 - Structured facts in files survive compaction. Conversation doesn't.
 - A new Claude session with zero context should be able to read this folder and be productive immediately.

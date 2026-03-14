@@ -39,10 +39,11 @@ Session start (or compaction recovery)
     ├─ Compaction happens
     │   └─ Return to top: light cleanup → resume
     │
-    └─ Session end
-        ├─ Full cleanup
-        ├─ Push
-        └─ End-of-session protocol (see session discipline guide)
+    └─ Session end (Kurt says "close" or equivalent)
+        ├─ 1. Light cleanup (dates, stale refs, naming drift)
+        ├─ 2. Handoff note in roadmap Active Item Detail
+        ├─ 3. Check if push needed → build push block if yes
+        └─ (Aliases: "close", "close session", "run close checklist")
 ```
 
 ---
@@ -106,17 +107,29 @@ Hooks are deterministic scripts that run at specific workflow points — after f
 **What it covers:** All sections (0–12) of the cleanup checklist. File inventory, naming, style, stale content, registry sweep, repo health.
 **Output:** One copy-paste push block for all repos (chained with `&&` and `cd ../sibling`). Never split across multiple code fences.
 
+### Close Routine
+
+**Trigger:** Kurt says "close", "close session", "run close checklist", "let's wrap up", or "I'm done."
+**Time:** 3–5 minutes.
+**What it covers:** Three steps, in order:
+
+1. **Light cleanup** — dates, stale refs, naming drift (cleanup checklist §0–4). May surface items worth noting in step 2.
+2. **Handoff note** — write into roadmap Active Item Detail. Where we stopped, what's next, any context the next session needs.
+3. **Push check** — if there are changes worth persisting, build and present the push block. If nothing meaningful changed, skip.
+
+The close routine is the **standard way sessions end.** Full cleanup (all 12 sections) is reserved for major milestones or when Kurt explicitly asks for it. Most sessions don't need a full cleanup at close — the light cleanup + handoff + push is sufficient.
+
 ### The Relationship
 
-Light cleanup is a subset of full cleanup. They never conflict. The rule is simple:
+Three cleanup modes, each a superset of the one before:
 
-| Event | Cleanup type |
+| Event | Cleanup mode |
 |-------|-------------|
-| Compaction recovery | Light |
-| Major task completed mid-session | Light |
-| Before git push | Full |
-| End of session | Full |
-| Kurt says "run the checklist" | Full (unless he specifies light) |
+| Compaction recovery | Light (§0–4) |
+| Major task completed mid-session | Light (§0–4) |
+| **End of session** | **Close routine** (light + handoff + push check) |
+| Before a major push with many changes | Full (§0–12) |
+| Kurt says "run the checklist" | Full (unless he specifies light or close) |
 
 ---
 
@@ -189,8 +202,9 @@ All recurring processes, their triggers, and their frequencies.
 
 | Process | Trigger | Frequency | Time | Reference |
 |---------|---------|-----------|------|-----------|
-| Light cleanup | Compaction recovery | Every compaction | 2–3 min | Cleanup checklist §0–3 |
-| Full cleanup | Before push / end of session | 1–3× per session | 10–15 min | Cleanup checklist §0–12 |
+| Light cleanup | Compaction recovery | Every compaction | 2–3 min | Cleanup checklist §0–4 |
+| Close routine | End of session | Once per session | 3–5 min | This guide § Close Routine |
+| Full cleanup | Before major push / Kurt asks | As needed | 10–15 min | Cleanup checklist §0–12 |
 | Push | Coherent unit of work complete | 1–3× per session | 2 min | This guide § Push Conventions |
 | Checkpoint | Long autonomous build / pre-compaction | As needed | 2 min | Session discipline guide |
 | Lessons capture | Decisions, conventions, gotchas | Immediately when discovered | 1 min each | Session discipline guide |

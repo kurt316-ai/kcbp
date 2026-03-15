@@ -29,8 +29,8 @@
 | **Project parent folder** | The CCF subfolder for a project (e.g., `{your-project}/`). Contains `for-claude/`, `output/`, `archimedes-mailbox/`, and `CLAUDE.md` at root. This is the folder selected in Cowork. Standard convention for all projects. |
 | **Builder (folder)** | The workshop folder (`[project]-builder/`). Has its own `.git` repo (private). Research, drafts, roadmap, cleanup checklist. Never ships. |
 | **User (folder)** | The deliverable folder (`[project]/`). Has its own `.git` repo (public or private depending on project). What gets used, shipped, or consumed. |
-| **Starter file** | The one file Kurt drops into a new project to bootstrap it with Archimedes. Points Claude to the repo. |
-| **Seed file** | Same as starter file, but specifically in the context of rolling it out to existing projects for self-assessment. |
+| **Starter file** | The one file Kurt drops into a new project to bootstrap it with Archimedes. Points Claude to the repo. All intelligence lives in the repo, not the seed. |
+| **Seed file** | Synonym for starter file. The 14-line file that bootstraps a new project with Archimedes. Sometimes used specifically for greenfield installs (vs. CLAUDE-update.md for brownfield/existing projects). |
 | **Router README** | A project-level README or CLAUDE.md that acts as a dispatcher — routes Claude to the right docs per task type. Lightweight, not an encyclopedia. |
 | **Task routing table** | A table inside a router README that maps task types to which files Claude should read (and which to skip). Includes trigger phrases. |
 
@@ -72,6 +72,10 @@
 | **Harness** | The scaffolding that sets an agent up to succeed — CLAUDE.md, skills, MCP tools, templates, conventions. If the agent can't do something, that's a harness problem, not a model problem. |
 | **Feedback loop** | The cycle: project does work → writes lessons-learned → Archimedes reads it → updates best practices → next project benefits. |
 | **Harvest** | When Archimedes-builder reads lessons-learned files from multiple projects and pulls findings into the lessons learned library. |
+| **Fresh-session standard** | The test for whether a project's files are complete: a cold-start Claude should be immediately productive. If Claude needs you to re-explain things that should be in files, something's missing. |
+| **Autonomous build window** | The north star metric. How long Claude can operate without needing Kurt. Every Archimedes convention — pre-loaded keys, constraints files, proven patterns — extends this window. |
+| **Design then Build** | A workflow mode (typically Opus). Kurt and Claude design together, then Claude goes autonomous for 15+ minutes while Kurt steps away. The autonomous build window is what makes this possible. |
+| **Pair Build** | A workflow mode (typically Sonnet). Kurt and Claude work shoulder-to-shoulder in tight test-debug loops. Archimedes gives Sonnet a cold start with zero ramp-up. |
 
 ## Evaluation Framework Terms
 
@@ -89,6 +93,23 @@
 | **Touchstone trace** | A brief statement at the top of a design doc identifying which gates that doc serves and why. Ensures any Claude session immediately knows the purpose behind the conventions. |
 | **Traceability** | Every convention, SOP, or design decision should trace back to a specific gate. If it can't, it's dead weight or its justification is missing. |
 | **Posture audit** | Research-based review of whether current standards reflect latest best practices. "What does the world know now that we didn't know last month?" |
+| **Health audit** | Is the system working as designed? Services running, cron jobs firing, endpoints responding. Frequent (daily or continuous), automated, mechanical. Marvin owns. |
+| **Security audit** | Is the system locked down? Repo visibility, env var exposure, access controls, API key rotation. Periodic (weekly/monthly + every deploy/install), checklist-based. Marvin runs, Archimedes owns the checklist. |
+| **Three-Question Audit Frame** | Every audit validates the three-layer model: (1) Is the principle correct? (Layer 1), (2) Is the translation complete? (Layer 2), (3) Is the machinery working and output high quality? (Layer 2 → 3). |
+
+## The Three-Layer Optimization Model
+
+| Term | Definition |
+|---|---|
+| **Three-Layer Model** | The core architecture that makes Archimedes work. Three layers, each optimized for a different audience: Layer 1 (Kurt), Layer 2 (translation), Layer 3 (Claude). The acceleration framework: improving any one layer makes the whole system better. The key diagnostic skill is knowing which layer to improve. |
+| **Layer 1 (optimized for Kurt)** | Clear, precise SOPs in plain language. One concept per SOP. Kurt states it once — that's it from his perspective. |
+| **Layer 2 (the translation layer)** | The 1-to-many mapping between Layer 1 and Layer 3. One Kurt SOP may require writes into 8 different markdown files, each encoded per that file type's optimization contract. The SOP registry is the primary Layer 2 tool. |
+| **Layer 3 (optimized for Claude)** | Best practices encoded in markdown so Claude sees the right thing, at the right time, without loading anything unnecessary. Structured for context windows, cold starts, and compaction survival. |
+| **Rosetta Stone principle** | The 1-to-many translation from Layer 1 → Layer 3, governed by Layer 2. Named because it translates one language (Kurt's SOPs) into another (Claude's markdown). Design Principle #7. |
+| **SOP registry** | The Layer 2 workhorse. Maps each plain-language SOP to every file where it must be reflected, with function tags (Remind, Teach, Catch, Inherit) per implementation point. When an SOP changes, the registry tells Claude exactly which files to update. Lives in `for-claude/ref-6-sop-registry-for-kurt-and-claude.md`. |
+| **Two-Stack Model** | The three-layer model applied twice: Stack 1 (Builder — how Archimedes itself works, private repo) and Stack 2 (Product — what Archimedes ships to leaf projects, public repo). Each stack has its own Layer 1, Layer 2, and Layer 3. |
+| **Preference stack** | The four surfaces that define how Claude behaves: web preferences, Cowork global instructions, personal CLAUDE.md, project CLAUDE.md. Archimedes owns all four. Seven sub-principles govern stack design, each tracing to a Touchstone gate. |
+| **Harness** | The scaffolding that sets Claude up to succeed — CLAUDE.md, skills, MCP tools, templates, conventions. If Claude can't do something, that's a harness problem, not a model problem. |
 
 ## Architecture Terms
 
@@ -125,6 +146,7 @@ Kurt uses human-readable shorthand that maps to specific Archimedes files and co
 | **"The naming doc"** | The naming conventions reference | `templates/naming-conventions.md` |
 | **"The overview"** | The project overview doc | `{project}-overview-for-kurt.md` at project root |
 | **"The roadmap"** | The project roadmap | `for-claude/design-1-roadmap-for-claude.md` |
+| **"Layer 1 / Layer 2 / Layer 3"** | The Three-Layer Optimization Model: Layer 1 = optimized for Kurt (SOPs), Layer 2 = translation layer (1-to-many mapping), Layer 3 = optimized for Claude (markdown files). "Which layer broke?" is the diagnostic question. | See "The Three-Layer Optimization Model" section above. Source of truth: `ref-5` Architecture section. |
 
 **General pattern:** Kurt thinks in concepts ("SOPs," "best practices," "the rules for X"). Archimedes stores those concepts in the file that's structurally right per our markdown conventions — usually a guide, reference, or the relevant section of an existing doc. When Kurt asks to update a concept, find where that concept lives and update it there. If the concept genuinely isn't captured anywhere, create it in the right file type per the file type taxonomy.
 

@@ -55,7 +55,9 @@ Write a handoff note in the roadmap's Active Item Detail section. Include: what 
 Recommend one of seven session types: Explore, Design, Build, Verify, Capture, Organize, Review. Write the recommendation into the handoff note with a one-line rationale and a brief description of what that session would cover.
 
 ### Step 5 — Conditional Git Push (autonomous)
-See Paired Push Rule below. Run `git status` in both repos. If either has changes: stage, commit, and push. Present ONE copy-paste push block — all repos, all commands, one code fence, chained with `&&`. If no files changed, state "Both repos clean — no push needed" after actually running `git status`.
+See Paired Push Rule below. **Claude runs `git status` in the VM** (read-only — SOP #17) to detect changes. Then Claude **presents one copy-paste terminal block** for Kurt to run on his Mac. The block includes all `cd`, lock cleanup, `git add`, `git commit`, and `git push` commands. Claude never runs `git add`, `git commit`, or `git push` in the VM — those go in the copy-paste block only.
+
+If no files changed in either repo, state "Both repos clean — no push needed" after actually running `git status`.
 
 **This is the default session-end.** The Project Health Checklist is for major milestones or pre-push with many changes — not for routine close.
 
@@ -87,13 +89,30 @@ Every project folder contains exactly two git repos. Together they are **MECE** 
 **All other projects** follow the same pattern: `{project}-builder` repo + `{project}` product repo. The dividing line varies per project, but the principle is identical.
 
 **Session-close behavior:**
-1. Run `git status` in **both** repos.
-2. If `archimedes-files-for-claude/` changed in the builder, sync the distribution copy first: `cp` changed files from root `archimedes-files-for-claude/` into `output/archimedes-files-for-claude/` before committing either repo.
-3. If either repo has changes: stage, commit, and push.
-4. Present **one** copy-paste push block — all sync commands, all repos, all commits, one code fence, chained with `&&`. Never split across multiple code fences. Kurt does one copy-paste, one Enter.
+1. **Claude runs `git status`** in both repos inside the VM (read-only — SOP #17). This is the only git operation Claude executes.
+2. If `archimedes-files-for-claude/` changed in the builder, the copy-paste block must sync the distribution copy first: `cp` changed files from root `archimedes-files-for-claude/` into `output/archimedes-files-for-claude/` before committing either repo.
+3. If either repo has changes: **include** `git add`, `git commit`, and `git push` commands in the copy-paste block. Only include repos that have changes — skip clean repos.
+4. Present **one** copy-paste push block — all sync commands, all repos, one code fence. Chain with `&&` within a repo; use `;` between repos (SOP #6). Never split across multiple code fences. Kurt does one copy-paste, one Enter.
 5. If neither has changes: state "Both repos clean — no push needed" after actually running `git status`. Never skip the check.
 
-**The session is not clean until both repos show no uncommitted changes and no unpushed commits.** Cowork made the changes, Cowork pushes them.
+**The session is not clean until both repos show no uncommitted changes and no unpushed commits.** Cowork made the changes, Kurt pushes them via the copy-paste block.
+
+**Canonical push block template** (Archimedes two-repo example — adapt per project):
+
+```
+cd ~/Desktop/Claude\ Cowork\ Folders/Archimedes/ &&
+rm -f .git/index.lock .git/HEAD.lock &&
+git add -A &&
+git commit -m "Session close: [summary of builder changes]" &&
+git push -u origin main ;
+cd ~/Desktop/Claude\ Cowork\ Folders/Archimedes/output/ &&
+rm -f .git/index.lock .git/HEAD.lock &&
+git add -A &&
+git commit -m "Session close: [summary of product changes]" &&
+git push -u origin main
+```
+
+**Rules for the block:** Start with `cd` to Mac path (SOP #16). Always `rm -f` lock files. Always `git push -u origin main` (SOP #15). Never include gitignored files in targeted `git add` — use `git add -A` only when confident `.gitignore` is correct (SOP #28). If only one repo has changes, only include that repo's commands.
 
 ## Autonomy Rules
 

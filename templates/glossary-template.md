@@ -1,8 +1,17 @@
 # {PROJECT_NAME} — Glossary
 
-**Last updated:** {DATE}
+**Last updated:** {DDD DD MMM YYYY HHMM PT}
 
-Use these terms consistently across all project files. When in doubt, check here first. This prevents Claude from hallucinating meanings or using inconsistent terminology across sessions.
+Use these terms consistently across all project files. When in doubt, check here first. Prevents Claude from hallucinating meanings or using inconsistent terminology across sessions.
+
+**Structure:** Archimedes Terms (universal, keep as-is) → Domain Terms → Project-Specific Terms → People & Accounts → Technical Terms.
+
+**Rules:**
+- Retired terms stay with a note: `Retired. Use {new term} instead.` Don't delete — future sessions might encounter the old term.
+- Cross-project terms: add to lessons-learned under **Glossary term** category for Archimedes harvest.
+- Update when: new term comes up that Claude might misinterpret, Kurt corrects a term, a term is retired or renamed.
+
+<!-- ARCHIMEDES HEADER END — do not edit above this line -->
 
 ---
 

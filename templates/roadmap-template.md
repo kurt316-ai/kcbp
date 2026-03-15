@@ -3,6 +3,18 @@
 **Last updated:** {DDD DD MMM YYYY HHMM PT}
 **Audience:** `for-claude` — Kurt engages with this doc through conversation, not by reading it directly. Optimize for Claude answering "what's next?" and "what was decided about X?"
 
+**Structure:** What's Next (priority queue) → Active Item Detail → Vision → Components → Phases → Open Questions → Decision Log → Kurt's Notes Capture → How Claude Uses This Doc.
+
+**Rules:**
+- What's Next: max 7 active items. Two numbering systems: Seq (execution order, mutable) and ID (permanent, for cross-refs).
+- Status values: `not-started` · `in-progress` · `blocked` · `done`. Done items: Seq = `—`. Parked: Seq = `P`.
+- Decision Log: append-only, sequential. Never reorder. Later decisions reference earlier ones with "Updates #X".
+- Active Item Detail: pruning rule — when an item reaches `done`, collapse to a one-liner pointing at the deliverable.
+- Every session: check priorities, move done items, add decisions, capture Kurt's thinking, update timestamp.
+- Relationship to overview doc: roadmap = top-down view of the build (process). Overview = top-down view of the product.
+
+<!-- ARCHIMEDES HEADER END — do not edit above this line -->
+
 ---
 
 ## What's Next

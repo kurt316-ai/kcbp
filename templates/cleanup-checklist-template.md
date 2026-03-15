@@ -1,6 +1,16 @@
 # {PROJECT_NAME} — Cleanup Checklist
 
-**Last updated:** {DATE}
+**Last updated:** {DDD DD MMM YYYY HHMM PT}
+
+**Two modes:** Light (after compaction, 2–3 min), Close (end of session, 3–5 min), Full (before major push, 10–15 min). Every section tagged [Light], [Full], or both.
+
+**Natural triggers:** compaction recovery → Light. Kurt says "close"/"wrap up" → Close. Kurt says "let's push"/"run the cleanup checklist" → Full.
+
+**Design principle:** Human input first (Sections 0–1 require Kurt), then Claude runs autonomously. Kurt can walk away after Section 1.
+
+**Section order:** §0 Self-Check → §1 Kurt Input → §2 Roadmap Sync → §3 Context Preservation → §4 Mailbox Check → §4.5 Audit Feedback → [Light stops] → §5+ Full mode sections.
+
+<!-- ARCHIMEDES HEADER END — do not edit above this line -->
 
 ---
 

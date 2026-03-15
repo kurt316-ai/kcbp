@@ -20,7 +20,10 @@ Use these terms consistently across all project files. When in doubt, check here
 | Term | Definition |
 |---|---|
 | **Archimedes** | The cross-project system of conventions, templates, guides, and infrastructure that governs how Kurt's projects are structured, documented, and maintained. The hub — all projects inherit from it. |
-| **Archimedes protocols** | The full operating system Archimedes provides: folder structure (Two-Stack Model), file naming, cleanup checklist, mailbox communication, session discipline, writing style by audience, autonomy rules, and standing jobs. |
+| **Archimedes protocols** | The full operating system Archimedes provides: folder structure (Two-Stack Model), file naming, three checklists (Session Close, Recovery, Project Health), mailbox communication, session discipline, writing style by audience, autonomy rules, and standing jobs. |
+| **Session Close Checklist** | 5-step autonomous sequence triggered by "close." Self-contained in guide-1. Covers self-assessment, session sync, handoff note, next session recommendation, git push. |
+| **Recovery Checklist** | Lightweight checklist triggered by compaction. Defined in guide-1. Verifies critical state (roadmap, context, mailbox) survived context loss. ~2 min. |
+| **Project Health Checklist** | Comprehensive project audit (formerly "Cleanup Checklist"). Full file inventory, naming, style, stale content, security, repo health. Triggered by "run the health check" or before major push. ~10-15 min. |
 | **Two-Stack Model** | Folder architecture: Stack 1 (builder) = how the project works (`{project}-files-for-claude/`, `archimedes-mailbox/`, root files). Stack 2 (product) = what the project delivers (`output/`). Each stack has its own git repo. |
 | **Archimedes mailbox** | Two-file communication channel (`archimedes-mailbox/inbox.md` + `outbox.md`) for bidirectional feedback between a project and Archimedes. Projects write to outbox; Archimedes writes to inbox. |
 | **Standing jobs** | Eight outbound message types that run continuously: project-announce, new-pattern, anti-pattern, convention-update, convention-conflict, tool-insight, question, module-request. Write to `archimedes-mailbox/outbox.md` when spotted. |

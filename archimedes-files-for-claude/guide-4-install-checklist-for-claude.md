@@ -36,7 +36,7 @@ Run each check in order. Mark pass/fail. If anything fails, fix it before procee
 
 ## §4 — Project Files
 
-- [ ] `{project}-files-for-claude/` contains at minimum: roadmap (`design-1-roadmap-for-claude.md`), cleanup checklist, glossary
+- [ ] `{project}-files-for-claude/` contains at minimum: roadmap (`design-1-roadmap-for-claude.md`), project health checklist, glossary
 - [ ] Files follow naming convention: `[type]-[seq]-[topic]-for-[audience].md`
 - [ ] No version numbers in filenames
 

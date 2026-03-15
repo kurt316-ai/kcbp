@@ -34,20 +34,29 @@ Each section below contains the canonical header block for one project file type
 
 ---
 
-## guide-*-cleanup-checklist-for-claude.md
+## guide-*-project-health-checklist-for-claude.md (filename: guide-1-cleanup-checklist-for-claude.md)
 
 ```markdown
-# {PROJECT_NAME} — Cleanup Checklist
+# {PROJECT_NAME} — Project Health Checklist
 
 **Last updated:** {DDD DD MMM YYYY HHMM PT}
 
-**Two modes:** Light (after compaction, 2–3 min), Close (end of session, 3–5 min), Full (before major push, 10–15 min). Every section tagged [Light], [Full], or both.
+**Purpose:** Comprehensive audit for keeping project files, conventions, and documentation in sync. The full project health check — "is the project clean?"
 
-**Natural triggers:** compaction recovery → Light. Kurt says "close"/"wrap up" → Close. Kurt says "let's push"/"run the cleanup checklist" → Full.
+**When to run:** Before major push with many changes. When Kurt asks for it. Not for routine session close or compaction recovery — those have their own checklists in guide-1.
 
-**Design principle:** Human input first (Sections 0–1 require Kurt), then Claude runs autonomously. Kurt can walk away after Section 1.
+Three checklists exist, each serving a different purpose:
 
-**Section order:** §0 Self-Check → §1 Kurt Input → §2 Roadmap Sync → §3 Context Preservation → §4 Mailbox Check → §4.5 Audit Feedback → [Light stops] → §5+ Full mode sections.
+| Checklist | Where it lives | When to run | Purpose |
+|---|---|---|---|
+| **Session Close** | `archimedes-files-for-claude/guide-1` § "Session Close Checklist" | Kurt says "close" | Wrap up session. Self-contained. Autonomous. |
+| **Recovery** | `archimedes-files-for-claude/guide-1` § "Recovery Checklist" | After compaction | Verify critical state survived context loss. |
+| **Project Health** | This file | Before major push, on request | Full audit: files, naming, style, stale content, repos. |
+
+**Natural triggers:**
+- Kurt says "let's push" / "run the health check" / "run the full checklist" → **This file.**
+- Kurt says "close" / "wrap up" → **Not this file.** Go to guide-1 Session Close.
+- Compaction recovery → **Not this file.** Go to guide-1 Recovery Checklist.
 ```
 
 <!-- ARCHIMEDES HEADER END — do not edit above this line -->

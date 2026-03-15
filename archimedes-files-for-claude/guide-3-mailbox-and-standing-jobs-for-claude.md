@@ -59,5 +59,5 @@ When scanning a mailbox, read from the top and **stop at this marker.** Everythi
 
 ## When to Write
 
-- **Outbox:** Write immediately when you spot something (see Standing Jobs). The cleanup checklist Section 9 is the backstop. Insert new entries at the top (above the stop marker).
+- **Outbox:** Write immediately when you spot something (see Standing Jobs). The Project Health Checklist Section 9 is the backstop. Insert new entries at the top (above the stop marker).
 - **Inbox:** Check for `unread` entries above the stop marker at session start (see session open protocol). Mark entries `actioned` after processing, then move the stop marker above the newly actioned entries.

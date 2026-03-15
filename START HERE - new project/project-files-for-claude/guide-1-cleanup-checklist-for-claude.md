@@ -1,29 +1,36 @@
-# {PROJECT_NAME} — Cleanup Checklist
+# {PROJECT_NAME} — Project Health Checklist
 
 **Last updated:** {DDD DD MMM YYYY HHMM PT}
 
-**Two modes:** Light (after compaction, 2–3 min) and Full (before major push, 10–15 min). Every section tagged [Light], [Full], or both. **Close is NOT a mode of this checklist** — Close is a universal sequence owned by `archimedes-files-for-claude/guide-1-session-and-autonomy-for-claude.md`. When Close runs, it calls §0 and §2–4 from this checklist autonomously, skips §1, then handles handoff, next session recommendation, and conditional git push itself.
+**Purpose:** Comprehensive audit for keeping project files, conventions, and documentation in sync. The full project health check — "is the project clean?"
 
-**Natural triggers:** compaction recovery → Light. Kurt says "close"/"wrap up" → **Not this checklist.** Go to guide-1 Session Close. Kurt says "let's push"/"run the cleanup checklist" → Full.
+**When to run:** Before major push with many changes. When Kurt asks for it. Not for routine session close or compaction recovery — those have their own checklists in guide-1.
 
-**Design principle:** Close is fully autonomous — Kurt says "close" and walks away. Light and Full modes ask Kurt for input (§1) first, then go autonomous. §0 (Self-Check) is always autonomous across all modes.
+Three checklists exist, each serving a different purpose:
 
-**Section order:** §0 Self-Check → §1 Kurt Input (Light/Full only, skipped on Close) → §2 Roadmap Sync → §3 Context Preservation → §4 Mailbox Check → §4.5 Audit Feedback → [Light stops] → §5+ Full mode sections.
+| Checklist | Where it lives | When to run | Purpose |
+|---|---|---|---|
+| **Session Close** | `archimedes-files-for-claude/guide-1` § "Session Close Checklist" | Kurt says "close" | Wrap up session. Self-contained. Autonomous. |
+| **Recovery** | `archimedes-files-for-claude/guide-1` § "Recovery Checklist" | After compaction | Verify critical state survived context loss. |
+| **Project Health** | This file | Before major push, on request | Full audit: files, naming, style, stale content, repos. |
+
+**Natural triggers:**
+- Kurt says "let's push" / "run the health check" / "run the full checklist" → **This file.**
+- Kurt says "close" / "wrap up" → **Not this file.** Go to guide-1 Session Close.
+- Compaction recovery → **Not this file.** Go to guide-1 Recovery Checklist.
 
 <!-- ARCHIMEDES HEADER END — do not edit above this line -->
 
 ---
 
-## 0. Self-Check [Light] [Full]
+## 0. Self-Check
 
-Claude assesses these autonomously. No Kurt input required. Items needing human judgment get tagged `[KURT ACTION]` in the handoff note (during Close) or flagged inline (during Light/Full).
+Claude assesses these autonomously. No Kurt input required. Items needing human judgment get flagged inline or tagged `[KURT ACTION]`.
 
-- [ ] Has anything in this session changed the cleanup checklist itself? If so, update this file first.
+- [ ] Has anything in this session changed the Project Health Checklist itself? If so, update this file first.
 - [ ] Have any new concepts, conventions, or architecture decisions been added this session? If so, update the relevant docs (roadmap, CLAUDE.md, etc.) so they stay current.
 
-## 1. Kurt Input [Light] [Full] — REQUIRES KURT
-
-**This section runs during Light and Full cleanup only. Close skips it entirely.** Kurt's responsibility: share lessons learned and feedback *before* saying "close." Once the close trigger fires, Claude runs autonomously from §0 onward.
+## 1. Kurt Input — REQUIRES KURT
 
 - [ ] "Did anything happen this session worth capturing in lessons-learned?" (e.g., a pattern that worked well, a mistake to avoid, a workflow improvement)
 - [ ] If yes, append to `{project}-files-for-claude/capture-2-lessons-learned-for-kurt-and-claude.md` with a date stamp (create this file if it doesn't exist yet)
@@ -34,7 +41,7 @@ Claude assesses these autonomously. No Kurt input required. Items needing human 
 
 ---
 
-## 2. Roadmap Sync [Light] [Full]
+## 2. Roadmap Sync
 
 **First autonomous step — update the source of truth before validating anything else.**
 
@@ -44,9 +51,9 @@ Claude assesses these autonomously. No Kurt input required. Items needing human 
 - [ ] Decision Log includes all decisions from this session
 - [ ] Version number and date are updated
 
-## 3. Context Preservation Check [Light] [Full]
+## 3. Context Preservation Check
 
-**Most critical after compaction.** Verify these facts are written in files, not lost in conversation.
+Verify these facts are written in files, not lost in conversation.
 
 - [ ] All decisions made this session are captured in the roadmap's Decision Log
 - [ ] Any new conventions or patterns are documented (not just discussed)
@@ -54,23 +61,21 @@ Claude assesses these autonomously. No Kurt input required. Items needing human 
 - [ ] Key constraints and preferences are recorded
 - [ ] A new Claude session with zero context could read this folder and be productive immediately
 
-## 4. Archimedes Mailbox Check [Light] [Full]
+## 4. Archimedes Mailbox Check
 
 - [ ] Check `archimedes-mailbox/inbox.md` for entries with status `unread`
 - [ ] For each unread entry: read it, take the required action, update status to `actioned`
 - [ ] Check `archimedes-mailbox/outbox.md` — verify any pending entries have been written
 
-### 4.5 Audit Feedback Check [Light] [Full]
+### 4.5 Audit Feedback Check
 
 - [ ] Check `{project}-files-for-claude/` for any `capture-*-audit-findings-*` files not yet addressed
 - [ ] If new findings exist: read them, address Critical items immediately, add Important items to roadmap, batch Minor items for cleanup
 - [ ] For items tagged `[KURT ACTION]`: surface to Kurt before proceeding
 
-**Light mode stops here.** Everything below is Full mode only.
-
 ---
 
-## 5. File Inventory [Full]
+## 5. File Inventory
 
 ```
 {PROJECT_NAME}/
@@ -78,7 +83,7 @@ Claude assesses these autonomously. No Kurt input required. Items needing human 
 ├── {project}-overview-for-kurt.md                     ← Kurt's orientation file
 ├── {project}-files-for-claude/                        ← Workshop (flat, type-prefixed)
 │   ├── design-1-roadmap-for-claude.md
-│   ├── guide-1-cleanup-checklist-for-claude.md        ← This file
+│   ├── guide-1-project-health-checklist-for-claude.md ← This file
 │   ├── ref-1-glossary-for-claude.md
 │   ├── capture-1-idea-bin-for-kurt-and-claude.md
 │   └── (more files as needed)
@@ -92,7 +97,7 @@ Claude assesses these autonomously. No Kurt input required. Items needing human 
 - [ ] No orphaned files at root level
 - [ ] No duplicate files across folders
 
-## 6. Naming Conventions [Full]
+## 6. Naming Conventions
 
 **`{project}-files-for-claude/` pattern:** `[type]-[seq]-[topic]-for-[audience].md`
 
@@ -110,7 +115,7 @@ Claude assesses these autonomously. No Kurt input required. Items needing human 
 - [ ] No version numbers in any filenames
 - [ ] No spaces in filenames
 
-## 7. Writing Style by Audience [Full]
+## 7. Writing Style by Audience
 
 - `for-claude` — Technical. Concise. Structured. Every word earns its place.
 - `for-kurt` — Conversational. Plain English.
@@ -122,7 +127,7 @@ Checks:
 - [ ] `for-claude` files have no unnecessary prose
 - [ ] `for-kurt` files are readable without technical context
 
-## 8. Stale Content Check [Full]
+## 8. Stale Content Check
 
 - [ ] No references to old filenames that don't exist on disk
 - [ ] No references to old folder names
@@ -133,7 +138,7 @@ Checks:
 - [ ] Headers and titles inside files match the file's current name and purpose
 - [ ] All `Last updated` timestamps use Kurt's format: `DDD DD MMM YYYY HHMM PT`
 
-## 9. Archimedes Mailbox — Outbound Check [Full]
+## 9. Archimedes Mailbox — Outbound Check
 
 Before pushing, check if anything from this session should be reported to Archimedes.
 
@@ -142,7 +147,7 @@ Before pushing, check if anything from this session should be reported to Archim
 - [ ] Did Kurt state a preference or correction that should propagate to other projects?
 - [ ] For each "yes": append an entry to `archimedes-mailbox/outbox.md` with status `unread`
 
-## 10. Pre-Push Security Check [Full]
+## 10. Pre-Push Security Check
 
 **BEFORE EVERY `git push` TO PUBLIC REPOS.**
 
@@ -155,15 +160,36 @@ Quick checks:
 - [ ] No `{project}-files-for-claude/` files in `output/` folder
 - [ ] No root overview with PII committed to public repo
 
-## 11. GitHub Repo Health [Full]
+## 11. GitHub Repo Health
 
 - [ ] Does this project have a GitHub repo? If not, and there are 3+ files, create one.
 - [ ] Are there uncommitted changes? If so, commit and push.
 - [ ] Does the remote match the local state?
 - [ ] **One push block.** All repos, all commands, one code fence.
 
-## 12. Folder Structure Check [Full]
+## 12. Folder Structure Check
 
 - [ ] CLAUDE.md is at the parent level, not inside either subfolder
 - [ ] `{project}-files-for-claude/` is flat (no subfolders)
 - [ ] `archimedes-mailbox/` has inbox.md and outbox.md
+
+---
+
+## How to Run This Checklist
+
+**Triggers:**
+> "Let's push" (large change set), "run the health check", "run the full checklist"
+
+**Not this checklist:**
+> "Close" / "wrap up" → go to guide-1 Session Close Checklist.
+> Compaction recovery → go to guide-1 Recovery Checklist.
+
+**Procedure:**
+1. Ask Kurt Section 1 (Kurt Input). After Kurt responds, run autonomously.
+2. Run §0 (Self-Check) autonomously
+3. Scan the full folder tree
+4. Read each file
+5. Report pass/fail for each item (Sections 2–12)
+6. Fix what it can, flag what needs Kurt's input
+7. Section 10 (pre-push security check) must complete before any `git push` to public repos
+8. Present **one** copy-paste push block for all repos. Never split across multiple code fences.

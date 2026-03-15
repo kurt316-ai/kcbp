@@ -15,18 +15,18 @@ The open protocol lives in the **Archimedes block** of each project's CLAUDE.md 
 
 **The boot sequence (steps 0–5):**
 
-0. **Compaction gate** — if recovering from compaction, run light cleanup (§0–4 of project cleanup checklist) before proceeding. Skip on fresh sessions.
+0. **Compaction gate** — if recovering from compaction, run the Recovery Checklist (§ "Recovery Checklist" below) before proceeding. Skip on fresh sessions.
 1. **Identify** — determine session type. Read roadmap for handoff context. Confirm single goal with Kurt.
 2. **Load protocol** — read this file (guide-1) for session rules and autonomy model. All other files load on demand via the CLAUDE.md routing table.
 3. **Check mailbox** — read `archimedes-mailbox/inbox.md` for unread entries. *(Deferred — skip until mailbox service is operational.)*
-4. **Close trigger** — at session end, when Kurt says "close": run the 5-step Close sequence from § "Session Close" below. Fully autonomous.
+4. **Close trigger** — at session end, when Kurt says "close": run the Session Close Checklist (§ "Session Close Checklist" below). Fully autonomous.
 5. **Drift guard** — if work drifts from the declared session type, note it once and suggest opening a new session. One nudge, not a gate.
 
 **Why the boot sequence lives in CLAUDE.md, not here:** CLAUDE.md is the only file guaranteed to load at session start. This file (guide-1) loads at step 2 of the boot sequence. If the open protocol lived only here, steps 0–1 would never fire. The CLAUDE.md block is the trigger; this file is the spec.
 
-## Session Close — Universal Sequence (Archimedes-Owned)
+## Session Close Checklist (Archimedes-Owned)
 
-**Owner:** This section is the single source of truth for the Close sequence. Projects do NOT define their own Close mode — guide-1 controls the sequence. Project cleanup checklists provide Light and Full modes; Close lives here.
+**Owner:** This section is the single source of truth for the Session Close Checklist. Projects do NOT define their own close protocol — guide-1 controls it. The Project Health Checklist is a separate, comprehensive audit; Session Close is lightweight and self-contained.
 
 **Triggers:** Kurt says "close", "close session", "run close checklist", "let's wrap up", or "I'm done".
 
@@ -35,10 +35,18 @@ The open protocol lives in the **Archimedes block** of each project's CLAUDE.md 
 **Run these five steps in exact order — no skipping, no reordering:**
 
 ### Step 1 — Self-Assessment (autonomous)
-Run §0 (Self-Check) from the project's cleanup checklist autonomously. Claude assesses: did conventions change this session? Did preferences drift? Is CLAUDE.md in sync? Any items requiring human judgment get tagged `[KURT ACTION]` in the handoff note (Step 3) — they do not block the close.
+Claude assesses these questions autonomously. Items requiring human judgment get tagged `[KURT ACTION]` in the handoff note (Step 3) — they do not block the close.
 
-### Step 2 — Light Cleanup (autonomous)
-Run §2–4 from the project's cleanup checklist (Roadmap Sync, Context Preservation, Mailbox Check). These are the same sections that run in Light mode. Execute autonomously — no questions.
+- Are all decisions from this session written to files (not just conversation)?
+- Does CLAUDE.md still accurately reflect the project's current state?
+- Did any new conventions or preferences emerge that need documenting?
+
+### Step 2 — Session Sync (autonomous)
+Update the project's source of truth before handing off.
+
+- Roadmap: mark completed work `done`, update decision log with session decisions, update date.
+- Context preservation: verify key facts are in files, not just conversation. A new Claude session with zero context should be able to pick up from here.
+- Mailbox: check `archimedes-mailbox/inbox.md` for unread entries. Check outbox for any pending entries that should have been written this session.
 
 ### Step 3 — Handoff Note (autonomous)
 Write a handoff note in the roadmap's Active Item Detail section. Include: what was accomplished this session, what remains, any blockers or open questions, and any `[KURT ACTION]` items from Step 1.
@@ -49,7 +57,24 @@ Recommend one of seven session types: Explore, Design, Build, Verify, Capture, O
 ### Step 5 — Conditional Git Push (autonomous)
 See Paired Push Rule below. Run `git status` in both repos. If either has changes: stage, commit, and push. Present ONE copy-paste push block — all repos, all commands, one code fence, chained with `&&`. If no files changed, state "Both repos clean — no push needed" after actually running `git status`.
 
-**This is the default session-end.** Full cleanup (all sections of the project checklist) is for major milestones or pre-push with many changes — not for routine close.
+**This is the default session-end.** The Project Health Checklist is for major milestones or pre-push with many changes — not for routine close.
+
+## Recovery Checklist (Archimedes-Owned)
+
+**Purpose:** After compaction or context loss, verify that critical session state survived. Lightweight — ~2 minutes.
+
+**Triggers:** Compaction recovery (automatic via boot sequence step 0). Kurt says "run recovery" or "quick check."
+
+**Autonomous.** Claude runs this without pausing for input.
+
+**Steps:**
+
+1. **Roadmap sync** — All completed work marked `done`. Decision log includes all decisions from this session. Date is current.
+2. **Context preservation** — All decisions are in files, not just conversation. New conventions are documented. A cold-start Claude could be productive immediately.
+3. **Mailbox check** — Check `archimedes-mailbox/inbox.md` for unread entries. Verify any pending outbox entries have been written.
+4. **Audit feedback** — Check `{project}-files-for-claude/` for any `capture-*-audit-findings-*` files not yet addressed. Address Critical items immediately, add Important items to roadmap.
+
+After recovery, resume normal work. No handoff note, no push, no session recommendation — those are Close-only.
 
 ## Paired Push Rule (Every Project)
 
@@ -75,7 +100,7 @@ Every project folder contains exactly two git repos. Together they are **MECE** 
 Anything prescribed by Archimedes conventions is pre-authorized. Do not pause to ask permission for:
 
 - Updating file paths, dates, or headers to match current state
-- Running the cleanup checklist (light or full)
+- Running the Recovery Checklist or Project Health Checklist
 - Fixing naming convention violations
 - Updating the roadmap with decisions made in conversation
 - Any other housekeeping defined in the project's own docs
@@ -84,7 +109,7 @@ Anything prescribed by Archimedes conventions is pre-authorized. Do not pause to
 
 **Don't narrate your plan — just do it.** Exception: before going autonomous in Design then Build, summarize the build plan.
 
-**Going autonomous: announce it.** When transitioning from interactive to autonomous work (cleanup checklist, build phase, etc.), tell Kurt: "Going autonomous now — I'll come back with [deliverable]. You can walk away."
+**Going autonomous: announce it.** When transitioning from interactive to autonomous work (Project Health Checklist, build phase, etc.), tell Kurt: "Going autonomous now — I'll come back with [deliverable]. You can walk away."
 
 **Grow the autonomous build window.** Every session should leave docs more complete so the next session can take on more autonomously. Document SOPs, principles, and decision patterns continuously. Surface to Kurt only when: new precedent, unclear safety gate, undocumented preference, or ambiguous domain boundary. Everything else — act.
 

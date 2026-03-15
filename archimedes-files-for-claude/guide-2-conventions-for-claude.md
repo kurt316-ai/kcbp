@@ -33,7 +33,7 @@ Every Archimedes project has two instruction subfolders split by ownership:
 
 **`archimedes-files-for-claude/`** — Owned entirely by Archimedes. One-way push. Contains behavioral instructions (how to work). When Archimedes evolves, this folder gets overwritten wholesale. The project never touches it.
 
-**`{project}-files-for-claude/`** — Owned entirely by the project. Contains project-specific context (what to work on): roadmap, glossary, cleanup checklist, domain guides, capture bin. Normal project workflow.
+**`{project}-files-for-claude/`** — Owned entirely by the project. Contains project-specific context (what to work on): roadmap, glossary, project health checklist, domain guides, capture bin. Normal project workflow.
 
 **`archimedes-mailbox/`** — Bidirectional feedback channel. Different purpose from instruction push.
 

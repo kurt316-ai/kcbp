@@ -43,7 +43,21 @@ archimedes-mailbox/
 [structured content]
 ```
 
+## Ordering & Scanning
+
+**Newest first.** New entries go at the top of the file (immediately after the header block and `---` separator). This applies to both inbox and outbox.
+
+**Stop marker.** Every mailbox file contains an HTML comment that marks the boundary between unprocessed and processed entries:
+
+```markdown
+<!-- ACTIONED BELOW — stop scanning -->
+```
+
+When scanning a mailbox, read from the top and **stop at this marker.** Everything below it has already been handled. When you action the last `unread` entry, move the marker above it.
+
+*Why:* Newest-first plus a stop marker means sessions never read stale history. The actionable surface is always between the header and the marker — which could be zero entries (nothing to do) or a handful (all recent).
+
 ## When to Write
 
-- **Outbox:** Write immediately when you spot something (see Standing Jobs). The cleanup checklist Section 9 is the backstop.
-- **Inbox:** Check for `unread` entries at session start (see session open protocol). Mark entries `actioned` after processing.
+- **Outbox:** Write immediately when you spot something (see Standing Jobs). The cleanup checklist Section 9 is the backstop. Insert new entries at the top (above the stop marker).
+- **Inbox:** Check for `unread` entries above the stop marker at session start (see session open protocol). Mark entries `actioned` after processing, then move the stop marker above the newly actioned entries.

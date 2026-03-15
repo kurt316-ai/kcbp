@@ -15,7 +15,7 @@ Files in `{project}-files-for-claude/` follow: `[type]-[seq]-[topic]-for-[audien
 - **Root Kurt files:** `[project]-[topic]-for-[audience].md`
 - **Exemptions:** `CLAUDE.md`, `README.md`, `SKILL.md`, `inbox.md`, `outbox.md` keep standard names.
 
-Full spec: Archimedes `output/templates/naming-conventions.md`
+Full spec: this file. Archimedes `archimedes-files-for-claude/guide-2-conventions-for-claude.md` is the canonical naming reference.
 
 ## Folder Structure
 

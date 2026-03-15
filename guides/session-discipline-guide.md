@@ -349,6 +349,20 @@ Defensive practices so push blocks don't fail mid-chain:
 - **Never include gitignored files in push blocks.** `CLAUDE.md` is gitignored in every project (local-only router). Including it in `git add` causes the command to fail and aborts the entire chained push block. Before building a push block, mentally filter the changed-files list against `.gitignore`. Common gitignored files: `CLAUDE.md`, `.env`, `node_modules/`, `__pycache__/`.
 - **If files were deleted via Bash `rm`**, don't use `git rm` in the push block — the file is already gone from disk and `git rm` will fail. Instead, use `git add <folder>/` scoped to the affected directory (picks up both additions and deletions) or `git add -u <file>` for specific tracked files. See anti-pattern #21.
 
+**Canonical push block template** — always start from this pattern, never build from scratch:
+
+```bash
+cd ~/Desktop/Claude\ Cowork\ Folders/{Project} && rm -f .git/index.lock .git/HEAD.lock && git add {files} && git commit -m "{message}" && git push -u origin main
+```
+
+For two-repo projects (e.g., Archimedes builder + product):
+
+```bash
+cd ~/Desktop/Claude\ Cowork\ Folders/{Project} && rm -f .git/index.lock .git/HEAD.lock && git add {files} && git commit -m "{message}" && git push -u origin main && cd output && rm -f .git/index.lock .git/HEAD.lock && git add {files} && git commit -m "{message}" && git push -u origin main
+```
+
+**The `rm -f` is non-negotiable.** It's a no-op when no lock exists. Omitting it is how Kurt hits the "index.lock: File exists" error — the #1 recurring push failure.
+
 When Kurt pastes terminal output back into Cowork, it means something went wrong — read the error, fix the command, and give a corrected single block.
 
 ### Keep responses proportional to the task

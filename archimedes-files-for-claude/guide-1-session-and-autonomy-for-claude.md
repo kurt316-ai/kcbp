@@ -9,16 +9,20 @@
 
 **`archimedes-files-for-claude/` is read-only for project sessions.** This folder is owned by Archimedes and overwritten wholesale on each push. Never edit files in this folder. If you find errors, conflicts, or improvement opportunities, write to `archimedes-mailbox/outbox.md` instead — use type `convention-update` or `convention-conflict`.
 
-## Session Open
+## Session Open — Boot Sequence
 
-1. Read project `CLAUDE.md` (thin router — project identity + routing pointers)
-2. Read this folder (`archimedes-files-for-claude/`) for behavioral instructions — **read-only, do not edit**
-3. Read `{project}-files-for-claude/` for project-specific context (roadmap, glossary, checklist)
-4. Check `archimedes-mailbox/inbox.md` for unread entries
+The open protocol lives in the **Archimedes block** of each project's CLAUDE.md (section 2). That block is the boot sequence — it fires automatically when CLAUDE.md loads. The canonical template is in `ref-11-project-router-template-for-claude.md`.
 
-## After Compaction
+**The boot sequence (steps 0–5):**
 
-If recovering from compaction (context was summarized), immediately run the **light** cleanup checklist (Sections 0–4). This takes 2–3 minutes and catches anything the summary may have lost.
+0. **Compaction gate** — if recovering from compaction, run light cleanup (§0–4 of project cleanup checklist) before proceeding. Skip on fresh sessions.
+1. **Identify** — determine session type. Read roadmap for handoff context. Confirm single goal with Kurt.
+2. **Load protocol** — read this file (guide-1) for session rules and autonomy model. All other files load on demand via the CLAUDE.md routing table.
+3. **Check mailbox** — read `archimedes-mailbox/inbox.md` for unread entries. *(Deferred — skip until mailbox service is operational.)*
+4. **Close trigger** — at session end, when Kurt says "close": run the 5-step Close sequence from § "Session Close" below. Fully autonomous.
+5. **Drift guard** — if work drifts from the declared session type, note it once and suggest opening a new session. One nudge, not a gate.
+
+**Why the boot sequence lives in CLAUDE.md, not here:** CLAUDE.md is the only file guaranteed to load at session start. This file (guide-1) loads at step 2 of the boot sequence. If the open protocol lived only here, steps 0–1 would never fire. The CLAUDE.md block is the trigger; this file is the spec.
 
 ## Session Close — Universal Sequence (Archimedes-Owned)
 

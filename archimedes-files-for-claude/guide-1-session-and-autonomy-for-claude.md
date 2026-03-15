@@ -26,22 +26,24 @@ If recovering from compaction (context was summarized), immediately run the **li
 
 **Triggers:** Kurt says "close", "close session", "run close checklist", "let's wrap up", or "I'm done".
 
+**Fully autonomous.** When Kurt says "close", Claude runs all five steps without pausing for input. No questions, no confirmations. Kurt's one responsibility: share any lessons learned or feedback *before* saying "close." Once the trigger fires, Claude owns the rest.
+
 **Run these five steps in exact order — no skipping, no reordering:**
 
-### Step 1 — Kurt Input
-Run §0 (Self-Check) and §1 (Kurt Input) from the project's cleanup checklist. These require Kurt's response. After Kurt responds, announce: "Going autonomous now — I'll come back with a summary and push block. You can walk away."
+### Step 1 — Self-Assessment (autonomous)
+Run §0 (Self-Check) from the project's cleanup checklist autonomously. Claude assesses: did conventions change this session? Did preferences drift? Is CLAUDE.md in sync? Any items requiring human judgment get tagged `[KURT ACTION]` in the handoff note (Step 3) — they do not block the close.
 
 ### Step 2 — Light Cleanup (autonomous)
 Run §2–4 from the project's cleanup checklist (Roadmap Sync, Context Preservation, Mailbox Check). These are the same sections that run in Light mode. Execute autonomously — no questions.
 
 ### Step 3 — Handoff Note (autonomous)
-Write a handoff note in the roadmap's Active Item Detail section. Include: what was accomplished this session, what remains, any blockers or open questions.
+Write a handoff note in the roadmap's Active Item Detail section. Include: what was accomplished this session, what remains, any blockers or open questions, and any `[KURT ACTION]` items from Step 1.
 
 ### Step 4 — Next Session Recommendation (autonomous)
-Recommend one of seven session types: Explore, Design, Build, Verify, Capture, Organize, Review. Write the recommendation into the handoff note with a one-line rationale.
+Recommend one of seven session types: Explore, Design, Build, Verify, Capture, Organize, Review. Write the recommendation into the handoff note with a one-line rationale and a brief description of what that session would cover.
 
-### Step 5 — Paired Git Push (autonomous, mandatory)
-See Paired Push Rule below. This step is mandatory if any file changed this session. Present ONE copy-paste push block — all repos, all commands, one code fence, chained with `&&`. If no files changed, state "Both repos clean — no push needed" after actually running `git status`.
+### Step 5 — Conditional Git Push (autonomous)
+See Paired Push Rule below. Run `git status` in both repos. If either has changes: stage, commit, and push. Present ONE copy-paste push block — all repos, all commands, one code fence, chained with `&&`. If no files changed, state "Both repos clean — no push needed" after actually running `git status`.
 
 **This is the default session-end.** Full cleanup (all sections of the project checklist) is for major milestones or pre-push with many changes — not for routine close.
 

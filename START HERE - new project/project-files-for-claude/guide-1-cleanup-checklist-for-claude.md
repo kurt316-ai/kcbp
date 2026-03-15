@@ -2,33 +2,35 @@
 
 **Last updated:** {DDD DD MMM YYYY HHMM PT}
 
-**Two modes:** Light (after compaction, 2–3 min), Close (end of session, 3–5 min), Full (before major push, 10–15 min). Every section tagged [Light], [Full], or both.
+**Two modes:** Light (after compaction, 2–3 min) and Full (before major push, 10–15 min). Every section tagged [Light], [Full], or both. **Close is NOT a mode of this checklist** — Close is a universal sequence owned by `archimedes-files-for-claude/guide-1-session-and-autonomy-for-claude.md`. When Close runs, it calls §0 and §2–4 from this checklist autonomously, skips §1, then handles handoff, next session recommendation, and conditional git push itself.
 
-**Natural triggers:** compaction recovery → Light. Kurt says "close"/"wrap up" → Close. Kurt says "let's push"/"run the cleanup checklist" → Full.
+**Natural triggers:** compaction recovery → Light. Kurt says "close"/"wrap up" → **Not this checklist.** Go to guide-1 Session Close. Kurt says "let's push"/"run the cleanup checklist" → Full.
 
-**Design principle:** Human input first (Sections 0–1 require Kurt), then Claude runs autonomously. Kurt can walk away after Section 1.
+**Design principle:** Close is fully autonomous — Kurt says "close" and walks away. Light and Full modes ask Kurt for input (§1) first, then go autonomous. §0 (Self-Check) is always autonomous across all modes.
 
-**Section order:** §0 Self-Check → §1 Kurt Input → §2 Roadmap Sync → §3 Context Preservation → §4 Mailbox Check → §4.5 Audit Feedback → [Light stops] → §5+ Full mode sections.
+**Section order:** §0 Self-Check → §1 Kurt Input (Light/Full only, skipped on Close) → §2 Roadmap Sync → §3 Context Preservation → §4 Mailbox Check → §4.5 Audit Feedback → [Light stops] → §5+ Full mode sections.
 
 <!-- ARCHIMEDES HEADER END — do not edit above this line -->
 
 ---
 
-## 0. Self-Check [Light] [Full] — REQUIRES KURT
+## 0. Self-Check [Light] [Full]
+
+Claude assesses these autonomously. No Kurt input required. Items needing human judgment get tagged `[KURT ACTION]` in the handoff note (during Close) or flagged inline (during Light/Full).
 
 - [ ] Has anything in this session changed the cleanup checklist itself? If so, update this file first.
 - [ ] Have any new concepts, conventions, or architecture decisions been added this session? If so, update the relevant docs (roadmap, CLAUDE.md, etc.) so they stay current.
 
 ## 1. Kurt Input [Light] [Full] — REQUIRES KURT
 
-Ask Kurt both questions, capture the answers, then proceed autonomously.
+**This section runs during Light and Full cleanup only. Close skips it entirely.** Kurt's responsibility: share lessons learned and feedback *before* saying "close." Once the close trigger fires, Claude runs autonomously from §0 onward.
 
 - [ ] "Did anything happen this session worth capturing in lessons-learned?" (e.g., a pattern that worked well, a mistake to avoid, a workflow improvement)
 - [ ] If yes, append to `{project}-files-for-claude/capture-2-lessons-learned-for-kurt-and-claude.md` with a date stamp (create this file if it doesn't exist yet)
 - [ ] If the lesson is something Archimedes should act on, also append an entry to `archimedes-mailbox/outbox.md` with status `unread`
 - [ ] "Anything else I should know before I run the rest of the checklist?"
 
-**After this point, Claude runs autonomously. No more questions.**
+**After Kurt responds, explicitly announce:** "Going autonomous now — I'll come back with a summary and push block. You can walk away." Then run Sections 0, 2+ without further questions.
 
 ---
 

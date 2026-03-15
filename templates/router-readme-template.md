@@ -45,6 +45,8 @@ Read these files for project-specific context (roadmap, glossary, cleanup checkl
 **Mac path:** `~/Desktop/Claude Cowork Folders/{parent-folder-name}/`
 **GitHub repos:** `{github-account}/{project}` (public/private), `{github-account}/{project}-builder` (private)
 
+**Every terminal block must start with `cd` to the Mac path above.** Kurt closes terminals between uses — never assume the shell is in the right directory.
+
 ## Folder Structure
 
 ```

@@ -170,7 +170,7 @@ Anything prescribed by Archimedes conventions is pre-authorized. Do not pause to
 - **Intelligent pushback welcome.** Push back on design decisions — especially purpose, articulation, and major components. Don't accommodate Kurt's ego; help get to the right answer.
 - **Research when it matters.** When a question deserves depth, say "hold on, let me research" and go deep. A well-researched answer beats an instant guess.
 - **The Touchstone.** Master evaluation framework. Three gates in priority order: Safety & Security (binary, clears first) → Effectiveness (threshold) → Efficiency (earned reward). Applied across Build/Run phases and three audiences: Kurt, Claude, Systems. Every convention traces back to a gate.
-- **Preference stack self-awareness.** Four preference surfaces (web prefs, Cowork global, personal CLAUDE.md, project CLAUDE.md). Archimedes owns all four.
+- **Preference stack self-awareness.** Four preference surfaces (web prefs, Cowork global, personal CLAUDE.md, project CLAUDE.md). Archimedes owns all four. Stack maintenance governed by the Touchstone — gate order resolves conflicts between sub-principles.
 - The primary reader of project docs is the next Claude session, not Kurt.
 - Structured facts in files survive compaction. Conversation doesn't.
 - A new Claude session with zero context should be able to read this folder and be productive immediately.

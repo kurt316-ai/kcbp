@@ -2,7 +2,7 @@
 
 **Purpose:** Consistent terminology across all Archimedes-managed projects. When in doubt, check here first.
 **When to Load:** When encountering unfamiliar Archimedes terminology. Also during stale content checks (cleanup checklist Section 12).
-**Last updated:** Sat 14 Mar 2026
+**Last updated:** Sat 14 Mar 2026 (added Productivity Framework Terms)
 **Audience:** `for-kurt-and-claude` — structured and scannable for Claude, but includes Kurt's conceptual shorthand and conversational definitions that serve both readers.
 
 ---
@@ -161,6 +161,51 @@ Kurt uses human-readable shorthand that maps to specific Archimedes files and co
 | **`kurt316-ai`** | Kurt's personal GitHub account. Default for most projects including Archimedes. |
 | **`kurt-ai-316`** | Kurt's Northslope GitHub account. Each project specifies which account it uses. |
 | **Northslope** | Kurt's company. One word. Each project specifies which account it uses (personal: `kurt316-ai`, Northslope: `kurt-ai-316`). Archimedes is meta — used across both. |
+
+## Productivity Framework Terms
+
+These frameworks define naming conventions for the **thoughts & commitments pipeline** and Marvin's entity hierarchy.
+
+### GTD (Getting Things Done) — David Allen
+
+| Term | Definition |
+|---|---|
+| **GTD Pipeline** | Five sequential stages: **Capture** (aka Collect) → **Process** → **Organize** → **Review** (aka Reflect) → **Do**. |
+| **Action** | The atomic work unit. A discrete thing a human would visibly do. Always starts with an **imperative verb**: brainstorm, draft, email, call, review, schedule, buy. Can be marked done. ✅ |
+| **Project** | Anything requiring more than one action where the next action isn't self-obvious. Can be marked done. ✅ *Note: a short obvious sequence (action A, action B, action C) doesn't need project overhead — comma-separated inline is fine when the chain is self-evident.* |
+| **Area** | An ongoing responsibility or standard to maintain. **Cannot be marked done.** ⛔ Examples: health & fitness, each child, finances, a property. Areas generate projects and actions but are never themselves completed. |
+| **Action verb convention** | Actions use **imperative mood** — the verb is a command. ✅ "Draft quarterly update email." ❌ "Quarterly update email" (no verb). ❌ "Thinking about the plumber situation" (not imperative). |
+
+### BASB (Building a Second Brain) — Tiago Forte
+
+| Term | Definition |
+|---|---|
+| **CORE Pipeline** | Four stages where 1–3 exist **in service of** stage 4: **Capture** → **Organize** → **Review** → **Express** (produce output — the whole point). |
+| **Divergence** | The expanding phase (Capture + Organize). Research, brainstorm, hypothesize, explore. Start from a seed idea and get wider. *In Archimedes session terms: Explore and Capture sessions are divergent.* |
+| **Convergence** | The narrowing phase (Review + Express). Close down, checklists, burndown lists, shipping. *In Archimedes session terms: Build, Verify, Organize, and Review sessions are convergent. Design straddles both.* |
+| **PARA** | Organizational taxonomy with four containers: **Projects** (short-term, completable ✅), **Areas** (long-term, not completable ⛔), **Resources** (topics of ongoing interest, reference material), **Archive** (inactive items from the other three). |
+
+### Cross-Framework Alignment
+
+| Concept | GTD | BASB | Archimedes/Marvin Usage |
+|---|---|---|---|
+| Atomic work unit | Action | — | Action (imperative verb, markable done) |
+| Multi-step effort | Project | Project | Project (>1 action, markable done) |
+| Ongoing responsibility | Area | Area | Area (never done, generates projects) |
+| Reference material | Reference/Someday | Resources | Resources (not actionable) |
+| Cold storage | — | Archive | Archive |
+| Information flow | Capture → Process → Organize → Review → Do | Capture → Organize → Review → Express | Marvin pipeline TBD |
+| Expanding phase | — | Divergence (Capture + Organize) | Explore, Capture, early Design sessions |
+| Narrowing phase | — | Convergence (Review + Express) | Build, Verify, Organize, Review sessions |
+
+### Implications for Marvin & Archimedes
+
+1. **Entity types in Marvin's data model** must respect the Action / Project / Area distinction. Areas are containers, not tasks. Projects are completable containers. Actions are leaf nodes.
+2. **The thoughts & commitments pipeline** maps to these frameworks: Capture = divergent intake. Organize = divergent sorting. Review = convergent refinement. The pipeline's job is to move raw thoughts toward actionable commitments (actions and projects) or file them as reference.
+3. **Naming conventions** for any task/item in the system: if it's an action, it starts with an imperative verb. If it's a project, it has a clear done-state. If it's an area, it has no done-state.
+4. **Areas list** — Kurt will fully load his areas into Marvin. These are the top-level containers that generate everything else.
+
+---
 
 ## Website Automation Terms
 

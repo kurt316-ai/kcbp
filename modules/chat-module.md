@@ -3,7 +3,7 @@
 **Audience:** `for-claude`
 **Purpose:** Build Effectiveness (BE)
 **Load when:** Project uses Claude Chat (web/mobile) for design discussions, brainstorming, or mobile work
-**Last updated:** Fri 13 Mar 2026
+**Last updated:** Sat 14 Mar 2026
 
 ---
 
@@ -80,7 +80,18 @@ After a design discussion produces actionable decisions:
 
 1. **Summarize decisions** — Ask Claude to produce a structured summary: what was decided, what's still open, what to build next.
 2. **Organize by target** — Group feedback by destination file (roadmap, architecture doc, new component), not by conversation order.
-3. **Kurt brings it to Cowork** — Paste the summary or key decisions. Cowork integrates into project files.
+3. **Artifact handoff block** — When the session produces a document or artifact, include a **handoff block at the top of the artifact** with the suggested next action. Format:
+
+```
+<!-- COWORK HANDOFF -->
+**Action:** [imperative verb phrase — what Cowork should do with this artifact]
+**Also:** [secondary action, if any]
+<!-- /COWORK HANDOFF -->
+```
+
+**Why top of doc:** Cowork Claude sees the instruction before reading the content, so it knows *why* it's reading. HTML comment delimiters are machine-parseable and won't render if pasted somewhere visible. The instruction travels with the artifact — not lost if Kurt pastes the doc without the close message.
+
+4. **Kurt brings it to Cowork** — Paste the summary or key decisions. Cowork integrates into project files. Cowork has full discretion to override the suggested action.
 
 **Anti-pattern:** Don't try to do the file updates from Chat. Chat can't access the project files. The handoff is: Chat produces decisions, Cowork writes them down.
 

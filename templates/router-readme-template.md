@@ -160,7 +160,7 @@ Anything prescribed by Archimedes conventions is pre-authorized. Do not pause to
 
 **`[KURT ACTION]` tag:** When writing findings, decisions, or recommendations to any file, tag items that need human judgment with `[KURT ACTION]`. This is the escalation marker — it flags items Claude cannot resolve autonomously (architecture decisions, ambiguous intent, risk tradeoffs). The next session or Kurt himself can scan for these tags to find what needs attention.
 
-**Session end — the close routine.** When Kurt says "close" (or "close session", "run close checklist", "let's wrap up", "I'm done"), run four steps in order: (1) light cleanup §0–4, (2) handoff note in roadmap Active Item Detail, (3) recommend next session type (Design/Plan/Build/Review) based on where we are in the work cycle — write into handoff note, (4) check if push is needed — build push block if yes. This is the default session-end. Full cleanup is for major milestones only.
+**Session end — the close routine.** When Kurt says "close" (or "close session", "run close checklist", "let's wrap up", "I'm done"), run four steps in order: (1) light cleanup §0–4, (2) handoff note in roadmap Active Item Detail, (3) recommend next session type (one of seven — see `session-types-guide.md`) based on where we are in the work cycle — write into handoff note, (4) check if push is needed — build push block if yes. This is the default session-end. Full cleanup is for major milestones only.
 
 **Going autonomous: announce it.** When transitioning from interactive to autonomous work (cleanup checklist, build phase, etc.), explicitly tell Kurt: "Going autonomous now — I'll come back with [deliverable]. You can walk away." Kurt needs to know when he can leave vs. when Claude is waiting for input.
 

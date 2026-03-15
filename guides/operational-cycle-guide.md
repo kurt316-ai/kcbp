@@ -44,7 +44,7 @@ Session start (or compaction recovery)
     └─ Session end (Kurt says "close" or equivalent)
         ├─ 1. Light cleanup (dates, stale refs, naming drift)
         ├─ 2. Handoff note in roadmap Active Item Detail
-        ├─ 3. Recommended next session type (Design/Plan/Build/Review)
+        ├─ 3. Recommended next session type (one of 7 — see session-types-guide)
         ├─ 4. Check if push needed → build push block if yes
         └─ (Aliases: "close", "close session", "run close checklist")
 ```
@@ -53,28 +53,48 @@ Session start (or compaction recovery)
 
 ## The Work Cycle
 
-The session lifecycle (above) describes maintenance. The work cycle describes how to approach a non-trivial task across one or more sessions. Each phase ideally starts at full context capacity — which is why the `[Fresh]` boundary exists.
+The session lifecycle (above) describes maintenance. The work cycle describes how to approach tasks across one or more sessions. **Session types are defined in `session-types-guide.md`** — seven types across two pipelines.
+
+### Two Pipelines
+
+**Build pipeline** — making things:
 
 ```
-Design → Plan → [Fresh] → Build → Review → Improve
+Explore → Design → [Fresh] → Build → Verify → Improve
 ```
+
+**Thoughts & commitments pipeline** — managing things (feeds the build pipeline):
+
+```
+Capture → Organize → Review
+```
+
+The thoughts & commitments pipeline surfaces and prioritizes work. The build pipeline executes it. Capture catches raw input, Organize routes it to projects, Review confirms priorities. Then specific items enter the build pipeline.
+
+### Build Pipeline Phases
 
 | Phase | Session type | What happens | Key principle |
 |-------|-------------|-------------|---------------|
-| **Design** | Design session | Kurt + Claude discuss architecture, debate tradeoffs, make decisions. | Think before planning |
-| **Plan** | Plan session | Explore codebase, trace dependencies, decompose into subtasks. Scout subagent if heavy. | Catch misunderstandings before 500 lines in the wrong direction |
-| **[Fresh]** | — | Start a new session. Planning context consumed budget; execution starts clean. | Planning context is dead weight during implementation |
-| **Build** | Build session | Execute from the plan/brief. Autonomous (Opus) or pair (Sonnet). | Full attention capacity on the actual work |
-| **Review** | Review session | Fresh context reviews output. Adversarial framing. | Fresh eyes catch what builders miss |
+| **Explore** | Explore session | Research, diagnose, investigate. Define the problem. | Understand before solving |
+| **Design** | Design session | Architecture, tradeoffs, subtask decomposition. Produce build brief. | Think before building |
+| **[Fresh]** | — | Start a new session. Design context consumed budget; execution starts clean. | Design context is dead weight during implementation |
+| **Build** | Build session | Execute from the brief. Autonomous (Opus) or pair (Sonnet). | Full attention capacity on the actual work |
+| **Verify** | Verify session | Fresh context reviews output. Adversarial framing. | Fresh eyes catch what builders miss |
 | **Improve** | Any | Update CLAUDE.md with what worked. Capture lessons. Push. | The cycle compounds — each pass improves the next |
 
-**Session types are defined in `session-discipline-guide.md` § Session Types.** Each type has defined outputs, discipline priorities, and a chooser table. The close routine recommends which session type comes next (see § Close Routine below).
+### Thoughts & Commitments Pipeline Phases
 
-The `[Fresh]` boundary is **the default for non-trivial work**. Skip it only when the task is small enough that planning didn't consume meaningful context (rough threshold: under ~15 exchanges of exploration/planning).
+| Phase | Session type | What happens | Key principle |
+|-------|-------------|-------------|---------------|
+| **Capture** | Capture session | Brain dump. Get ideas, obligations, commitments out of Kurt's head into a file. | Don't organize yet — just get it out |
+| **Organize** | Organize session | Route captured items to projects, update roadmaps, prioritize. | Every item gets a disposition: routed, parked, or discarded |
+| **Review** | Review session | Reflect on commitments and priorities across all projects. | Review ≠ Verify. Review asks "right things?" not "does it work?" |
 
-Not every task requires all phases. Small fixes skip Design and Plan. Well-understood features may skip Design. The close routine evaluates where the work is and recommends the right next step.
+The `[Fresh]` boundary is **the default for non-trivial work**. Skip it only when Design consumed minimal context (rough threshold: under ~15 exchanges).
 
-**The "interview me" technique:** Before planning, tell Claude "Interview me about this feature." Claude asks clarifying questions that surface requirements you wouldn't have specified — producing dramatically better plans.
+Not every task requires all phases. Small fixes skip Explore and Design. Well-understood features may skip Explore. The close routine evaluates where the work is and recommends the right next step.
+
+**The "interview me" technique:** Before designing, tell Claude "Interview me about this feature." Claude asks clarifying questions that surface requirements you wouldn't have specified — producing dramatically better designs.
 
 **Course correction during implementation:** Use `Esc` to stop Claude mid-action (context preserved, redirect). Use `Esc+Esc` or `/rewind` to restore any previous checkpoint. If you've corrected Claude more than twice on the same issue, `/clear` and start fresh with a better prompt — a clean session with a refined prompt always outperforms a cluttered one with accumulated corrections.
 
@@ -122,7 +142,7 @@ Hooks are deterministic scripts that run at specific workflow points — after f
 
 1. **Light cleanup** — dates, stale refs, naming drift (cleanup checklist §0–4). May surface items worth noting in step 2.
 2. **Handoff note** — write into roadmap Active Item Detail. Where we stopped, what's next, any context the next session needs.
-3. **Recommended next session type** — evaluate where the work is in the cycle (Design → Plan → Build → Review) and recommend which session type comes next. Write the recommendation into the handoff note. See `session-discipline-guide.md` § How to Recommend the Next Session Type.
+3. **Recommended next session type** — evaluate where the work is across both pipelines and recommend which of the seven session types comes next. Write the recommendation into the handoff note. See `session-types-guide.md` § Choosing a Session Type.
 4. **Push check** — if there are changes worth persisting, build and present the push block. If nothing meaningful changed, skip.
 
 The close routine is the **standard way sessions end.** Full cleanup (all 12 sections) is reserved for major milestones or when Kurt explicitly asks for it. Most sessions don't need a full cleanup at close — the light cleanup + handoff + push is sufficient.

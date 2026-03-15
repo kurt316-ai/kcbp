@@ -10,42 +10,49 @@ When should a project use multiple Claude sessions, which models for which work,
 
 ## Session Types and the Work Cycle
 
-Before deciding on multi-task, understand the four session types and how they compose. Full details in `session-discipline-guide.md` § Session Types.
+Before deciding on multi-task, understand the seven session types and how they compose. Full details in `session-types-guide.md`.
 
-### The Four Session Types
+### Two Pipelines, Seven Types
 
-| Type | Who | Purpose | Output |
-|------|-----|---------|--------|
-| **Design** | Kurt + Opus | Discuss architecture, debate tradeoffs, make decisions | Decisions in roadmap + build brief |
-| **Plan** | Opus (solo or with Kurt) | Explore codebase, decompose tasks, map dependencies | Structured implementation plan |
-| **Build** | Opus autonomous or Sonnet pair | Execute from plan/brief | Implemented code + verification results |
-| **Review** | Fresh context, adversarial | Check build output with no builder bias | Issues list + suggested fixes |
+**Build pipeline** (making things): **Explore** → **Design** → **Build** → **Verify**
 
-### The Work Cycle
+**Thoughts & commitments pipeline** (managing things): **Capture** → **Organize** → **Review**
+
+| Type | Pipeline | Who | Purpose | Output |
+|------|----------|-----|---------|--------|
+| **Explore** | Build | Kurt + Opus | Research, diagnose, define the problem | Clear problem statement |
+| **Design** | Build | Kurt + Opus | Architecture, tradeoffs, subtask decomposition | Build brief |
+| **Build** | Build | Opus autonomous or Sonnet pair | Execute from brief | Working code, docs, config |
+| **Verify** | Build | Fresh context, adversarial | Test and validate build output | Pass or defect list |
+| **Capture** | T&C | Kurt + Opus/voice | Brain dump — get ideas out of Kurt's head | Raw capture file |
+| **Organize** | T&C | Opus or Cowork | Route captured items to projects, prioritize | Updated roadmaps |
+| **Review** | T&C | Cowork or Chat | Reflect on commitments, priority hygiene | Updated status, reprioritized items |
+
+### The Build Pipeline Work Cycle
 
 ```
-Design → Plan → [Fresh] → Build → Review → Improve
+Explore → Design → [Fresh] → Build → Verify → Improve
 ```
 
-The `[Fresh]` boundary — starting a new session between planning and implementation — is the default for non-trivial work. Planning context is dead weight during implementation.
+The `[Fresh]` boundary — starting a new session between Design and Build — is the default for non-trivial work. Design context is dead weight during implementation.
 
-Not every task requires all phases. Small fixes skip Design and Plan. The close routine evaluates where work is and recommends the next session type.
+Not every task requires all phases. Small fixes skip Explore and Design. The close routine evaluates where work is and recommends the next session type.
 
 ### Model Selection
 
-- **Opus** — Design sessions, Plan sessions, autonomous Build sessions, Review sessions. Where depth, judgment, and long autonomous runs matter.
-- **Sonnet** — Pair Build sessions. Where response speed matters because the feedback cycle is short. Component implementation, CSS fixes, debugging, test writing.
+- **Opus** — Explore, Design, autonomous Build, Verify, Capture, Organize, Review sessions. Where depth, judgment, and long autonomous runs matter.
+- **Sonnet** — Pair Build sessions, Verify sessions. Where response speed matters because the feedback cycle is short. Component implementation, CSS fixes, debugging, test writing.
 
 Archimedes enables cold-start model switching — both Opus and Sonnet read the same CLAUDE.md and are instantly productive. No ramp-up penalty.
 
 ### Composing Session Types
 
 A typical feature might use:
-1. **Design** (Opus) — scope the feature with Kurt
-2. **Plan** (Opus) — explore codebase, decompose into subtasks
+1. **Explore** (Opus) — research the problem space
+2. **Design** (Opus) — scope the solution with Kurt, produce build brief
 3. `[Fresh]` — new session
-4. **Build** (Sonnet pair or Opus autonomous) — implement from plan
-5. **Review** (Opus, fresh session) — adversarial check
+4. **Build** (Sonnet pair or Opus autonomous) — implement from brief
+5. **Verify** (Opus, fresh session) — adversarial check
 
 ---
 

@@ -36,85 +36,46 @@ Build verification into every task:
 
 ## Session Types
 
-Four types map to the work cycle (`Explore → Plan → [Fresh] → Build → Review`). Each has distinct outputs and discipline priorities.
+**Full reference:** `session-types-guide.md` — defines all seven types, open/close protocols, and the chooser table.
 
-### Design Session
+**Summary:** Seven session types across two pipelines.
 
-Kurt + Claude talk through architecture and tradeoffs. Output: roadmap decisions + build brief.
+**Build pipeline** (making things): **Explore** → **Design** → **Build** → **Verify**
 
-**Do:**
-- Capture decisions in roadmap immediately
-- Use "Interview Me" technique for non-trivial features
-- End with a clear build brief
+**Thoughts & commitments pipeline** (managing things): **Capture** → **Organize** → **Review**
 
-**Don't:**
-- Start building during design — context becomes dead weight during implementation
+The thoughts & commitments pipeline feeds the build pipeline. Capture catches raw input. Organize routes it. Review confirms priorities. Then items enter the build pipeline.
 
-### Plan Session
+### Session Open (all types)
 
-Explore codebase, map patterns, decompose into subtasks. Output: structured plan (subtasks, files, dependencies, risks, "done" criteria).
+1. **Identify the session type.** Claude states it or asks. One sentence.
+2. **Consume the handoff note** if one exists.
+3. **Confirm the single goal.**
 
-**Do:**
-- Front-load file reads
-- Use scout subagent if exploration is heavy
-- Write plan to checkpoint or roadmap (not just conversation)
+### Session Close (all types)
 
-**Don't:**
-- Implement during planning — context becomes dead weight
-
-### Build Session
-
-Autonomous (Kurt away, executes from brief) or Pair (shoulder-to-shoulder, fast iteration).
-
-**Autonomous:**
-- Front-load reads, then stop
-- Don't ask Kurt questions answered in existing files
-- Checkpoint every 30 min
-- End with structured completion block + push
-
-**Pair:**
-- Keep context lean
-- Short responses
-- Test fast, fail fast
-- Save frequently
-- Capture lessons at end only
-
-### Review Session
-
-Fresh context reviews build output. Output: findings, issues, fixes.
-
-**Do:**
-- Read code directly, not summaries
-- Use adversarial framing: "What's wrong?" not "Looks okay?"
-- Flag issues with severity
-- Can run as subagent
-
-**Don't:**
-- Load build conversation or planning context — the point is fresh eyes
-
-### Choosing a Session Type
-
-| Situation | Session type | Why |
-|-----------|-------------|-----|
-| New feature, unclear requirements | Design | Need to think before planning |
-| Complex codebase, many files to explore | Plan | Exploration will consume context |
-| Build brief exists, scope is clear | Build (autonomous) | Execute, don't re-discuss |
-| Small fix, quick iteration | Build (pair) | Overhead of plan session not worth it |
-| Large change set just landed | Review | Fresh eyes catch what builders miss |
-| Bug report, need to investigate | Plan → Build | Explore first, then fix in fresh session |
+1. **Summarize** what was accomplished.
+2. **Write the handoff note** (file, not conversation).
+3. **Recommend the next session type** with rationale.
 
 ### The `[Fresh]` Boundary
 
-Fresh session between planning and build is **the default for non-trivial work**. Skip only if planning consumed minimal context (~under 15 exchanges).
+Fresh session between Design and Build is **the default for non-trivial work**. Design context is dead weight during implementation. Skip only if Design consumed minimal context (~under 15 exchanges).
+
+### Drift Detection
+
+If the session drifts to a different type, Claude notes it once: *"This feels like it's shifting from Build into Design territory — want to capture this thread for a separate session?"* Then respects the answer. One nudge, not a gate.
 
 ---
 
 ## Session Start
 
 1. Read CLAUDE.md (the project map)
-2. Check for checkpoint files
-3. Check roadmap status
-4. Load only what the task requires
+2. **Identify the session type** — state it or ask Kurt (see `session-types-guide.md`)
+3. Check for checkpoint files and handoff notes
+4. Check roadmap status
+5. Confirm the single goal for this session
+6. Load only what the task requires
 
 Budget: under 2 minutes.
 
@@ -224,19 +185,22 @@ Four steps, in order:
 
 1. **Light cleanup** (§0–4 of checklist) — dates, stale refs, naming. ~2–3 min.
 2. **Handoff note** — roadmap's Active Item Detail. Where stopped, what's next, next-session context.
-3. **Recommended next session type** — Design/Plan/Build/Review based on current state.
+3. **Recommended next session type** — one of the seven types (see `session-types-guide.md`).
 4. **Push check** — single copy-paste block if changes exist, else skip.
 
 **Recommended next:**
 
 | Current state | Next | Why |
 |---|---|---|
-| Requirements unclear | Design | Need Kurt input |
-| Design done, codebase unexplored | Plan | Explore first |
-| Plan done, clear scope | Build | Execute |
-| Build done | Review | Fresh eyes |
-| Review found issues | Build | Fix |
-| Everything clean | Design | Next feature |
+| New problem, unclear requirements | Explore | Need to understand before designing |
+| Problem clear, need solution approach | Design | Architecture and tradeoffs |
+| Design done, clear scope | Build | Execute from brief |
+| Build done | Verify | Fresh eyes catch builder bias |
+| Verify found issues | Build | Fix defects |
+| Kurt has ideas piling up | Capture | Get it out of his head |
+| Capture file ready | Organize | Route to projects |
+| Weekly check-in due | Review | Priority hygiene |
+| Everything clean | Explore | Next problem |
 
 Format: `**Recommended next session:** [Type] — [reason]`
 

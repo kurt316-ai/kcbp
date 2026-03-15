@@ -32,7 +32,13 @@ The open protocol lives in the **Archimedes block** of each project's CLAUDE.md 
 
 **Fully autonomous.** When Kurt says "close", Claude runs all five steps without pausing for input. No questions, no confirmations. Kurt's one responsibility: share any lessons learned or feedback *before* saying "close." Once the trigger fires, Claude owns the rest.
 
-**Run these five steps in exact order — no skipping, no reordering:**
+**Run these five steps in exact order — no skipping, no reordering.**
+
+**Performance rules (Gate 3 — Efficiency):**
+- **Both CLAUDE.md files are already in context.** Do not re-read them. The close trigger goes straight to this section.
+- **Batch reads.** Steps 2–4 all need the roadmap. Mailbox check also happens in Step 2. Fire all reads (roadmap, inbox.md, outbox.md) in one parallel batch.
+- **Batch writes.** Steps 2–4 all write to the roadmap. Read once, apply all updates (status, decision log, date, handoff note, next session rec) in one or two edits — not three separate round-trips.
+- **Parallel git status.** Step 5 checks two repos. Run both `git status` commands in parallel.
 
 ### Step 1 — Self-Assessment (autonomous)
 Claude assesses these questions autonomously. Items requiring human judgment get tagged `[KURT ACTION]` in the handoff note (Step 3) — they do not block the close.
@@ -42,20 +48,20 @@ Claude assesses these questions autonomously. Items requiring human judgment get
 - Did any new conventions or preferences emerge that need documenting?
 
 ### Step 2 — Session Sync (autonomous)
-Update the project's source of truth before handing off.
+Update the project's source of truth before handing off. **Read the roadmap, inbox.md, and outbox.md in one parallel batch** — then apply updates.
 
 - Roadmap: mark completed work `done`, update decision log with session decisions, update date.
 - Context preservation: verify key facts are in files, not just conversation. A new Claude session with zero context should be able to pick up from here.
-- Mailbox: check `archimedes-mailbox/inbox.md` for unread entries. Check outbox for any pending entries that should have been written this session.
+- Mailbox: check `archimedes-mailbox/inbox.md` for unread entries. Check outbox for any pending entries that should have been written this session. Fast-fail: if both are empty or unchanged, no action needed.
 
 ### Step 3 — Handoff Note (autonomous)
-Write a handoff note in the roadmap's Active Item Detail section. Include: what was accomplished this session, what remains, any blockers or open questions, and any `[KURT ACTION]` items from Step 1.
+Write a handoff note in the roadmap's Active Item Detail section. Include: what was accomplished this session, what remains, any blockers or open questions, and any `[KURT ACTION]` items from Step 1. **Combine this edit with the Step 2 and Step 4 roadmap writes.**
 
 ### Step 4 — Next Session Recommendation (autonomous)
-Recommend one of seven session types: Explore, Design, Build, Verify, Capture, Organize, Review. Write the recommendation into the handoff note with a one-line rationale and a brief description of what that session would cover.
+Recommend one of seven session types: Explore, Design, Build, Verify, Capture, Organize, Review. Write the recommendation into the handoff note with a one-line rationale and a brief description of what that session would cover. **This is part of the same roadmap edit as Steps 2–3.**
 
 ### Step 5 — Conditional Git Push (autonomous)
-See Paired Push Rule below. **Claude runs `git status` in the VM** (read-only — SOP #17) to detect changes. Then Claude **presents one copy-paste terminal block** for Kurt to run on his Mac. The block includes all `cd`, lock cleanup, `git add`, `git commit`, and `git push` commands. Claude never runs `git add`, `git commit`, or `git push` in the VM — those go in the copy-paste block only.
+See Paired Push Rule below. **Run `git status` on both repos in parallel** (read-only — SOP #17) to detect changes. Then **present one copy-paste terminal block** for Kurt to run on his Mac. The block includes all `cd`, lock cleanup, `git add`, `git commit`, and `git push` commands. Claude never runs `git add`, `git commit`, or `git push` in the VM — those go in the copy-paste block only.
 
 If no files changed in either repo, state "Both repos clean — no push needed" after actually running `git status`.
 

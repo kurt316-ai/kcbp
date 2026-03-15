@@ -170,10 +170,16 @@ Live in roadmap's Active Item Detail (small/medium) or checkpoint file (large).
 - Never stage gitignored files (`CLAUDE.md`, `.env`)
 - If deleted via `rm`, use `git add <folder>/` or `git add -u <file>`, not `git rm`
 
-**Canonical template:**
+**Canonical template (single repo):**
 ```bash
 cd ~/Desktop/Claude\ Cowork\ Folders/{Project} && rm -f .git/index.lock .git/HEAD.lock && git add {files} && git commit -m "{message}" && git push -u origin main
 ```
+
+**Canonical template (two-stack — e.g., Archimedes builder + output):**
+```bash
+cd ~/Desktop/Claude\ Cowork\ Folders/{Project} && rm -f .git/index.lock .git/HEAD.lock && git add {builder-files} && git commit -m "{message}" && git push -u origin main ; cd output && rm -f .git/index.lock .git/HEAD.lock && git add {output-files} && git commit -m "{message}" && git push -u origin main
+```
+Use `;` between repos (not `&&`) so a no-changes skip in one repo doesn't abort the other. Check `.gitignore` — if `output/` is ignored by the root repo, those files can only be committed from inside `output/`.
 
 **Keep response proportional:** typo → sentence, component → plan + exec, design → paragraphs, status → bullets.
 

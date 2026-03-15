@@ -68,16 +68,16 @@ Kurt selects a folder when starting a Cowork session. Files saved to `/sessions/
 
 ### Git & Push Protocol
 
-**Cowork has no GitHub credentials.** The Linux VM cannot authenticate with GitHub. Never attempt `git push` (or `gh` commands that require auth) directly — it will fail every time.
+**Cowork is git read-only** (SOP #17). The Linux VM has no GitHub credentials and no configured git identity. Never run `git add`, `git commit`, `git push`, or any git write operation in the VM — they will fail or produce unusable results.
 
 **Convention:** Every session that makes file changes must end with a **terminal push block** for Kurt to run on his Mac. This is not optional — it's part of the Close Routine (step 4). Produce the block proactively; don't wait for Kurt to ask.
 
-**The push block uses the canonical template from `session-discipline-guide.md`:**
-```bash
-cd ~/Desktop/Claude\ Cowork\ Folders/{Project} && rm -f .git/index.lock .git/HEAD.lock && git add {files} && git commit -m "{message}" && git push -u origin main
-```
+**Use the canonical templates from `session-discipline-guide.md`.** Key points:
+- Single-repo projects: one `cd && git add && commit && push` chain
+- **Two-stack projects** (e.g., Archimedes with builder root + `output/` as separate repo): two chains joined by `;` — check `.gitignore` to know which files belong to which repo
+- Use `;` between repos (not `&&`) so a no-changes skip in one doesn't abort the other
 
-**Anti-pattern:** Claude attempts `git push` in the VM, it fails, then Claude scrambles to produce the terminal block. Skip the failure — go straight to the terminal block.
+**Anti-pattern:** Claude attempts git write operations in the VM, they fail, then Claude scrambles to produce the terminal block. Skip the failure — go straight to the terminal block.
 
 ### MCP Integrations
 

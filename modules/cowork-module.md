@@ -66,6 +66,19 @@ Kurt selects a folder when starting a Cowork session. Files saved to `/sessions/
 
 **Convention:** All final deliverables go to the workspace folder. Use the session's working directory for scratch work.
 
+### Git & Push Protocol
+
+**Cowork has no GitHub credentials.** The Linux VM cannot authenticate with GitHub. Never attempt `git push` (or `gh` commands that require auth) directly — it will fail every time.
+
+**Convention:** Every session that makes file changes must end with a **terminal push block** for Kurt to run on his Mac. This is not optional — it's part of the Close Routine (step 4). Produce the block proactively; don't wait for Kurt to ask.
+
+**The push block uses the canonical template from `session-discipline-guide.md`:**
+```bash
+cd ~/Desktop/Claude\ Cowork\ Folders/{Project} && rm -f .git/index.lock .git/HEAD.lock && git add {files} && git commit -m "{message}" && git push -u origin main
+```
+
+**Anti-pattern:** Claude attempts `git push` in the VM, it fails, then Claude scrambles to produce the terminal block. Skip the failure — go straight to the terminal block.
+
 ### MCP Integrations
 
 Cowork can connect to external services via MCP:

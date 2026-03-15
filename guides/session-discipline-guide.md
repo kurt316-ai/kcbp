@@ -159,7 +159,7 @@ Live in roadmap's Active Item Detail (small/medium) or checkpoint file (large).
 
 **Don't apologize for compaction.** Run cleanup, recover from files, resume.
 
-**Terminal: one copy-paste block.**
+**Terminal: one copy-paste block.** Cowork has no GitHub credentials — never attempt `git push` in the VM. Always produce a terminal block for Kurt to run on his Mac.
 - Within repo: chain with `&&`
 - Between repos: chain with `;`
 - Always `cd` to Mac path first (from CLAUDE.md Working Folder)
@@ -186,7 +186,7 @@ Four steps, in order:
 1. **Light cleanup** (§0–4 of checklist) — dates, stale refs, naming. ~2–3 min.
 2. **Handoff note** — roadmap's Active Item Detail. Where stopped, what's next, next-session context.
 3. **Recommended next session type** — one of the seven types (see `session-types-guide.md`).
-4. **Push check** — single copy-paste block if changes exist, else skip.
+4. **Push check** — single copy-paste terminal block if changes exist, else skip. **Always produce this block** — Cowork cannot push directly.
 
 **Recommended next:**
 

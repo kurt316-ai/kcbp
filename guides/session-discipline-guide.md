@@ -79,7 +79,7 @@ If the session drifts to a different type, Claude notes it once: *"This feels li
 
 Budget: under 2 minutes.
 
-**Folder selection:** Select the project folder (not parent CCF). CLAUDE.md loads automatically — you're oriented in ~2 min.
+**Folder selection:** Select the project folder. CLAUDE.md loads automatically — you're oriented in ~2 min. **Exception:** Archimedes sessions mount the parent CCF folder (`~/Desktop/Claude Cowork Folders/`) for cross-project visibility (SOP #30). The CCF-root CLAUDE.md routes to `Archimedes/CLAUDE.md`.
 
 ---
 

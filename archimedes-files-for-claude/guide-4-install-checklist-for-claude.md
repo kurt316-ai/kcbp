@@ -60,7 +60,8 @@ If any headers are missing or stale, replace them with the canonical version fro
 
 - [ ] CLAUDE.md task routing paths are valid (files exist at referenced paths)
 - [ ] No stale references to old `for-claude/` path (should be `{project}-files-for-claude/`)
-- [ ] Archimedes output references (if any) use `../Archimedes/output/` via parent mount (SOP #30)
+- [ ] No references to `../Archimedes/` sibling paths — projects pull from the git repo (`kurt316-ai/archimedes`), not from sibling folders
+- [ ] `archimedes-files-for-claude/` references point to the local copy, not to `output/` or external paths
 
 ---
 

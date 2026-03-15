@@ -59,9 +59,10 @@ Every project folder contains exactly two git repos. Together they are **MECE** 
 
 **Session-close behavior:**
 1. Run `git status` in **both** repos.
-2. If either has changes: stage, commit, and push.
-3. Present **one** copy-paste push block chaining both repos with `&&`. Never split across multiple code fences.
-4. If neither has changes: state "Both repos clean — no push needed" after actually running `git status`. Never skip the check.
+2. If `archimedes-files-for-claude/` changed in the builder, sync the distribution copy first: `cp` changed files from root `archimedes-files-for-claude/` into `output/archimedes-files-for-claude/` before committing either repo.
+3. If either repo has changes: stage, commit, and push.
+4. Present **one** copy-paste push block — all sync commands, all repos, all commits, one code fence, chained with `&&`. Never split across multiple code fences. Kurt does one copy-paste, one Enter.
+5. If neither has changes: state "Both repos clean — no push needed" after actually running `git status`. Never skip the check.
 
 **The session is not clean until both repos show no uncommitted changes and no unpushed commits.** Cowork made the changes, Cowork pushes them.
 

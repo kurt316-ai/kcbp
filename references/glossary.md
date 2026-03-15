@@ -2,7 +2,7 @@
 
 **Purpose:** Consistent terminology across all Archimedes-managed projects. When in doubt, check here first.
 **When to Load:** When encountering unfamiliar Archimedes terminology. Also during stale content checks (cleanup checklist Section 12).
-**Last updated:** Sat 14 Mar 2026 (added Productivity Framework Terms)
+**Last updated:** Sat 14 Mar 2026 (added Productivity Framework Terms, Interview Me)
 **Audience:** `for-kurt-and-claude` — structured and scannable for Claude, but includes Kurt's conceptual shorthand and conversational definitions that serve both readers.
 
 ---
@@ -73,6 +73,7 @@
 | **Feedback loop** | The cycle: project does work → writes lessons-learned → Archimedes reads it → updates best practices → next project benefits. |
 | **Harvest** | When Archimedes-builder reads lessons-learned files from multiple projects and pulls findings into the lessons learned library. |
 | **Fresh-session standard** | The test for whether a project's files are complete: a cold-start Claude should be immediately productive. If Claude needs you to re-explain things that should be in files, something's missing. |
+| **Interview Me** | A structured questioning technique used during Design sessions for non-trivial features. Instead of guessing at requirements, Claude interviews Kurt — asking targeted questions one at a time to surface assumptions, edge cases, and preferences before generating a build brief. Prevents the failure mode of building confidently from incomplete understanding. |
 | **Autonomous build window** | The north star metric. How long Claude can operate without needing Kurt. Every Archimedes convention — pre-loaded keys, constraints files, proven patterns — extends this window. |
 | **Design then Build** | A workflow mode (typically Opus). Kurt and Claude design together, then Claude goes autonomous for 15+ minutes while Kurt steps away. The autonomous build window is what makes this possible. |
 | **Pair Build** | A workflow mode (typically Sonnet). Kurt and Claude work shoulder-to-shoulder in tight test-debug loops. Archimedes gives Sonnet a cold start with zero ramp-up. |

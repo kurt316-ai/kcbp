@@ -4,7 +4,7 @@
 **When to Load:** Start of any session (type identification), or when session drift is detected.
 **Audience:** `for-claude` — Claude identifies the session type at open and enforces discipline throughout.
 **Last updated:** Sat 14 Mar 2026
-**Companion docs:** `session-discipline-guide.md` (session workflow, context budget), `operational-cycle-guide.md` (maintenance cadences)
+**Companion docs:** `session-discipline-guide.md` (session workflow, context budget), `operational-cycle-guide.md` (maintenance cadences), `pipelines-and-routines-guide.md` (pipeline orchestration, routine inventory, documents-per-pipeline)
 
 **Touchstone trace:** Precedes all gates — you can't evaluate safety, effectiveness, or efficiency until you know what kind of session you're in. Type identification is Gate 2 (effectiveness): wrong session type → wrong output → wasted context budget.
 

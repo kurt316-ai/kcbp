@@ -46,6 +46,7 @@ Claude assesses these questions autonomously. Items requiring human judgment get
 - Are all decisions from this session written to files (not just conversation)?
 - Does CLAUDE.md still accurately reflect the project's current state?
 - Did any new conventions or preferences emerge that need documenting?
+- **Preference stack check:** Did this session change how sessions work (pipeline definitions, session types, handoff formats, artifact specs)? If yes, evaluate whether the change needs encoding in the preference stack (Surfaces 1–4) so future sessions inherit it. Tag as `[KURT ACTION]` if Surface 1 or 2 needs re-pasting.
 
 ### Step 2 — Session Sync (autonomous)
 Update the project's source of truth before handing off. **Read the roadmap, inbox.md, and outbox.md in one parallel batch** — then apply updates.

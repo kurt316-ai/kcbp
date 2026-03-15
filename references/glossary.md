@@ -161,3 +161,10 @@ Kurt uses human-readable shorthand that maps to specific Archimedes files and co
 | **`kurt316-ai`** | Kurt's personal GitHub account. Default for most projects including Archimedes. |
 | **`kurt-ai-316`** | Kurt's Northslope GitHub account. Each project specifies which account it uses. |
 | **Northslope** | Kurt's company. One word. Each project specifies which account it uses (personal: `kurt316-ai`, Northslope: `kurt-ai-316`). Archimedes is meta — used across both. |
+
+## Website Automation Terms
+
+| Term | Definition |
+|---|---|
+| **TR (Technical Reference)** | A 14-section reference document for a website automation target. Covers login flow, page structure, booking flow, edge cases, forcing questions. Section 0 is a go/no-go automatability assessment. |
+| **Forcing question** | A comprehension check embedded in a TR (Section 13). Questions the builder must answer correctly before building. Prevents misunderstanding the target site. |

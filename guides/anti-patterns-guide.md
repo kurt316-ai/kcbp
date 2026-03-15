@@ -1,8 +1,20 @@
 # Anti-Patterns Guide
 
 **Audience:** `for-claude`
-**Purpose:** Failure catalog for the translation layer. Each anti-pattern is what happens when a human-facing principle or SOP fails to reach Claude's operational reality.
+**Purpose:** Failure catalog (lookup reference) for the translation layer. Each anti-pattern is independently scannable; this is a catalog-style reference document, not a procedural guide.
+**Format:** Reference / Lookup table (27 independently scannable anti-patterns, organized by category)
 **Last updated:** Sat 14 Mar 2026
+
+---
+
+## Contents
+
+1. Context & Compaction Anti-Patterns (1–4)
+2. Naming & Organization Anti-Patterns (5–7)
+3. Architecture & Design Anti-Patterns (8–10)
+4. External Integration Anti-Patterns (11–14)
+5. Process Anti-Patterns (15–27)
+6. Quick Reference
 
 ---
 

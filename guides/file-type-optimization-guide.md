@@ -1,12 +1,33 @@
 # File Type Optimization Guide
 
-**Purpose:** Optimization targets, structure, and failure modes for each markdown file type. Apply when creating, reviewing, or restructuring files.
+**Purpose:** Optimization targets, structure, and failure modes for each markdown file type. Apply when creating, reviewing, or restructuring files. *Classification: Principles document* (defines principles governing how other Archimedes files are written; stored in guides/ for organizational proximity to markdown-architecture-guide).
 **Audience:** `for-claude`
 **Companion doc:** `archimedes-system-guide-for-kurt.md` (project root) Part 2 has human-readable explanations.
 **Prerequisite:** Read `markdown-architecture-guide.md` first — general principles apply to all types. This guide adds type-specific constraints.
 **Last updated:** Fri 14 Mar 2026
 
 **Touchstone trace:** Gate 2 (each file type has distinct optimization targets — routers, guides, references, captures all serve different effectiveness needs) + Gate 3 (type-specific token budgets prevent context bloat). Gate 1 check: capture files and design surfaces must not contain secrets or PII destined for public repos.
+
+## Contents
+
+1. Core Principle: Type Prefix = Optimization Contract
+2. When to Load
+3. The Eight Types + Two Working Types
+4. Cross-Cutting Principles
+5. Router (Type 1)
+6. Design Surface (Type 2)
+7. Guide (Type 3)
+8. Reference (Type 4)
+9. Module (Type 5)
+10. Capture File (Type 6)
+11. Template (Type 7)
+12. Research (Type 8)
+13. Mailbox Entry (Type 9)
+14. Principles Document (Type 10)
+15. Type Identification Flowchart
+16. Type-to-Prefix Mapping & Cross-References
+
+---
 
 ## Core Principle: Type Prefix = Optimization Contract
 

@@ -4,7 +4,7 @@
 **Audience:** `for-claude`
 **Companion doc:** `archimedes-system-guide-for-kurt.md` (project root) Part 2 has human-readable explanations.
 **Prerequisite:** Read `markdown-architecture-guide.md` first — general principles apply to all types. This guide adds type-specific constraints.
-**Last updated:** Sat 14 Mar 2026
+**Last updated:** Fri 14 Mar 2026
 
 **Touchstone trace:** Gate 2 (each file type has distinct optimization targets — routers, guides, references, captures all serve different effectiveness needs) + Gate 3 (type-specific token budgets prevent context bloat). Gate 1 check: capture files and design surfaces must not contain secrets or PII destined for public repos.
 
@@ -27,9 +27,67 @@ In the `for-claude/` folder, every filename starts with a type prefix: `design-`
 
 ---
 
-## The Seven Types + Two Working Types
+## The Eight Types + Two Working Types
 
-Seven structural file types define the permanent taxonomy. Two additional working types (`research-` and mailbox entries) handle lifecycle stages and coordination. All nine have optimization rules below.
+Eight structural file types define the permanent taxonomy (Router, Design Surface, Guide, Reference, Principles Document, Module, Capture File, Template). Two additional working types (`research-` and mailbox entries) handle lifecycle stages and coordination. All ten have optimization rules below.
+
+---
+
+## Cross-Cutting Principles (Apply to All Types)
+
+These principles supplement the type-specific rules below. They emerged from operational experience and apply regardless of file type.
+
+### Extraction Triggers
+
+Design surfaces and other growing files must shed content when concepts mature. The existing test ("stable for 2+ sessions and driving Claude behavior") is necessary but not sufficient. **Concrete trigger protocol:**
+
+1. **Token budget trigger:** File exceeds its type's review threshold → audit for extractable content before splitting. Extraction is preferred over splitting when the file has distinct conceptual clusters.
+2. **Stability trigger:** A section hasn't been meaningfully edited in 3+ sessions → candidate for extraction to a guide or reference.
+3. **Frequency trigger:** Claude loads this file primarily to access one specific section → extract that section so Claude can load it independently.
+4. **Dependency trigger:** Other files reference a specific section of this file → that section has standalone value and should be its own file.
+
+**Extraction protocol:** Extract the content → create the new file following the target type's rules → replace the extracted content with a 1–2 line summary and cross-reference → update the router if the new file needs its own route.
+
+**Cleanup checklist integration:** Full mode Section 5 (File Inventory) should include a token budget check against each file's type ceiling. Flag any file in the review-for-extraction zone.
+
+### Active vs. Archive Separation
+
+Files that accumulate content over time (roadmaps, captures, registries) develop a mix of active and historical content. **The archive pattern:**
+
+1. **Active section stays lean.** Current items, open questions, in-progress work. This is what Claude needs for most tasks.
+2. **Archive section or companion file.** Completed items, resolved decisions, historical entries. Loaded only when provenance or history matters.
+3. **Archive trigger:** When the active portion of a growing file is <30% of total tokens, the file needs separation. Either: (a) move historical content to a companion `{filename}-archive.md`, or (b) restructure with a clear `## Archive` section at the bottom with a "stop reading here unless you need history" marker.
+4. **Decision log special case:** Roadmap decision logs grow unboundedly. Archive decisions older than 5 sessions to a companion file. Keep recent decisions (last 5 sessions) inline for active cross-referencing.
+
+### Internal Navigation for Large Files
+
+Files legitimately over 3,000 tokens (design surfaces, large references, principles documents) need navigable structure beyond front-loading.
+
+1. **Mini-TOC:** For files over 3,000 tokens, add a section index after the purpose/metadata block. Format: `## Contents` with linked section headers or a brief numbered list.
+2. **Section markers:** Use `---` horizontal rules between major sections. This gives Claude visual landmarks for partial reads.
+3. **Skip markers:** For files with archive sections, add `<!-- ACTIVE CONTENT ENDS HERE -->` so Claude knows when to stop reading for routine tasks.
+
+### Root Kurt File Budgets
+
+Human-layer files (`for-kurt`) get loaded into Claude's context too. The file-type rules below cover `for-claude/` types, but root Kurt files need budgets:
+
+| File type | Budget | Rationale |
+|-----------|--------|-----------|
+| Overview doc | 2,000–4,000 tokens. Over 4,000: extract mature concepts per the overview creation guide. | Primary design surface. Loaded frequently. Must fit in context alongside working files. |
+| System guide | 2,000–4,000 tokens. Over 4,000: split by domain. | Companion to overview. Loaded less often but still needs to fit. |
+| Roadmap | 3,000–6,000 tokens (active portion only). Archive separately. | Roadmaps grow unboundedly — the budget applies to the active portion. Historical decisions archive. |
+
+**Key insight:** Root Kurt files are optimized for Kurt's editing experience, but they still compete for Claude's context budget. When a root file grows, the question isn't "should it be restructured for Claude?" — it's "should mature concepts be extracted to focused `for-claude` guides, leaving the root file lean?"
+
+### Harvest Cadence for Accumulating Types
+
+Capture files and mailbox entries grow by design. Without active harvesting, they become inert accumulations that waste context budget.
+
+| Type | Harvest trigger | Action |
+|------|----------------|--------|
+| Capture file | >3,000 tokens OR >10 unharvested entries OR >3 sessions since last harvest | Process entries → update target files → mark entries `actioned` → archive processed entries |
+| Mailbox entry | Every session start (light cleanup scan) + every session end (outbound check) | Process `unread` entries → take action → update status |
+| Decision log (in roadmap) | >20 decisions inline OR >5 sessions of accumulated decisions | Archive older decisions to companion file → keep last 5 sessions inline |
 
 ### 1. Router
 
@@ -235,6 +293,30 @@ Seven structural file types define the permanent taxonomy. Two additional workin
 
 ---
 
+### 10. Principles Document
+
+**What it does:** Holds deep architectural content that governs how other files are written. Unlike references (lookup tables), principles documents are read end-to-end when loaded and their content shapes Claude's judgment and behavior across many tasks.
+**Loading pattern:** On-demand, but high-impact when loaded. Typically loaded for design work, audits, or when establishing patterns for new conventions.
+**Filename prefix:** `ref-` (shares prefix with references, but distinguished by content pattern — see identification test below)
+**Examples:** Design principles (`ref-5`), audit framework (`ref-8`).
+
+| Property | Target |
+|----------|--------|
+| Token budget | 3,000–6,000 acceptable — these files carry deep, interconnected content that resists splitting. Over 6,000: review for extracting self-contained sub-sections into companion guides. |
+| Optimization target | Complete, coherent architectural guidance. Claude reads this to understand *why* things work the way they do, not just *what* to do. Principles must be self-consistent and traceable to the Touchstone. |
+| Internal structure | Purpose → Principles (numbered, each with clear behavioral implications) → Architecture that follows (structural consequences) → Cross-references. Mini-TOC required (over 3K tokens). |
+| Identification test | Does this file define principles that govern how *other* files are written or structured? → Principles document. Is it a lookup table where entries are independently scannable? → Reference. The test is consumption pattern: read end-to-end (principles) vs. scan for specific entry (reference). |
+
+**Failure modes:**
+- **Reference masquerade** — a principles document filed as `ref-` and expected to behave like a lookup table. It won't. Its entries are interconnected; scanning for one principle without reading the surrounding context produces incomplete understanding.
+- **Ungrounded principles** — architectural content that sounds good but doesn't connect to operational behavior. Every principle must have a "How this shapes Claude's behavior" implication. If it doesn't change what Claude does, it's aspirational prose, not an operational principle.
+- **Unbounded growth** — principles documents attract additive content ("while we're defining principles, let's add..."). Each addition must earn its tokens. The test: does removing this principle cause visibly wrong behavior?
+- **Missing propagation** — a principle changes but its downstream implementation points (in guides, templates, routers) don't get updated. Principles documents should have explicit Propagation Targets tables.
+
+**Distinction from Guide:** Guides teach *how to do something* (procedural, task-scoped). Principles documents teach *how to think about something* (architectural, cross-cutting). A guide says "front-load the first 3–5 lines." A principles document explains *why* front-loading matters, what it trades off against, and how it interacts with other principles.
+
+---
+
 ## Type Identification Flowchart
 
 When creating a new file, determine its type:
@@ -242,12 +324,15 @@ When creating a new file, determine its type:
 1. Does it route to other files with minimal content of its own? → **Router**
 2. Will Kurt actively write and edit it as a design artifact? → **Design surface**
 3. Does it teach Claude how to do something? → **Guide**
-4. Is it a lookup table of definitions or conventions? → **Reference**
-5. Is it domain knowledge for a specific tool, loaded conditionally? → **Module**
-6. Will it accumulate entries over time? → **Capture file**
-7. Will it be copied once to create a new project file? → **Template**
-8. Is it an active investigation that will mature into another type? → **Research**
-9. Is it cross-project coordination between Archimedes and a project? → **Mailbox entry** (append to inbox.md or outbox.md)
+4. Does it define principles that govern how other files are written? → **Principles document**
+5. Is it a lookup table of definitions or conventions? → **Reference**
+6. Is it domain knowledge for a specific tool, loaded conditionally? → **Module**
+7. Will it accumulate entries over time? → **Capture file**
+8. Will it be copied once to create a new project file? → **Template**
+9. Is it an active investigation that will mature into another type? → **Research**
+10. Is it cross-project coordination between Archimedes and a project? → **Mailbox entry** (append to inbox.md or outbox.md)
+
+**Principles vs. Reference disambiguation:** Both may use the `ref-` prefix. The test: do you read it end-to-end to understand an interconnected framework (principles document), or scan it for a specific entry (reference)? If the answer is "both," it may need to be split into a principles document and a companion reference.
 
 If a file spans two types, it's usually a sign it should be split. The exception is design surfaces, which naturally contain some reference material and routing — that's inherent to their role as source of truth.
 
@@ -260,6 +345,7 @@ For files in `for-claude/`, the type determines the filename prefix:
 | Router | (exempt — `CLAUDE.md`) | No — project root |
 | Design surface | `design-` | Yes |
 | Guide | `guide-` | Yes |
+| Principles document | `ref-` (shared with Reference — see disambiguation) | Yes |
 | Reference | `ref-` | Yes |
 | Module | `module-` | Yes |
 | Capture file | `capture-` | Yes |
@@ -271,10 +357,11 @@ For files in `for-claude/`, the type determines the filename prefix:
 
 ## Cross-References
 
-**Part of the three-doc architecture package** (see overview doc, Design Principle #5):
+**Part of the four-doc architecture package:**
 - `naming-conventions.md` → how files are named and organized (system-wide, all surfaces)
 - **This doc** → what each file type is, how to optimize it, and its failure modes
 - `markdown-architecture-guide.md` → structural engineering principles for all markdown files
+- `markdown-audit-guide.md` → operational checklist for auditing files against the principles and type rules
 
 Other references:
 - `output/naming-conventions-rationale.md` — the "why" behind each naming convention

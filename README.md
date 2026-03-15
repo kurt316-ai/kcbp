@@ -39,6 +39,6 @@ archimedes/
 
 **`archimedes-files-for-claude/`** is the canonical distribution folder. Every Archimedes project copies this folder locally and reads it at session start. It contains session protocols, conventions, mailbox format, install checklist, key principles, and the header block manifest.
 
-**Greenfield** seeds ship with pre-built template files. Claude renames, fills in placeholders, and replaces the seed CLAUDE.md with a thin router.
+**Greenfield** seeds ship with pre-built template files. Claude renames, fills in placeholders, creates paired GitHub repos, and replaces the seed CLAUDE.md with a thin router.
 
 **Brownfield** retrofits fix folder naming, apply canonical headers, create missing files, and thin out CLAUDE.md. The CLAUDE-update.md self-destructs after completion.

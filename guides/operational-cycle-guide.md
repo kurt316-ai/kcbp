@@ -7,6 +7,8 @@
 **Last updated:** Sat 14 Mar 2026
 **Source:** Incorporates patterns from [Claude Code Best Practices](https://code.claude.com/docs/en/best-practices)
 
+**Touchstone trace:** Gate 2 (maintenance cycles keep the system effective — stale content, broken references, and drift are effectiveness failures) + Gate 3 (right cadence — frequent enough to catch problems, infrequent enough to not waste Kurt's time). Gate 1 check: security audit and push protocols are embedded in the cycle.
+
 ## When to Load
 
 - After compaction recovery (to know what maintenance to run)

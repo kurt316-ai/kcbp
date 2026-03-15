@@ -6,6 +6,8 @@
 **Prerequisite:** Read `markdown-architecture-guide.md` first — general principles apply to all types. This guide adds type-specific constraints.
 **Last updated:** Sat 14 Mar 2026
 
+**Touchstone trace:** Gate 2 (each file type has distinct optimization targets — routers, guides, references, captures all serve different effectiveness needs) + Gate 3 (type-specific token budgets prevent context bloat). Gate 1 check: capture files and design surfaces must not contain secrets or PII destined for public repos.
+
 ## Core Principle: Type Prefix = Optimization Contract
 
 In the `for-claude/` folder, every filename starts with a type prefix: `design-`, `guide-`, `ref-`, `module-`, `capture-`, `research-`. This prefix does double duty:

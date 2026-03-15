@@ -6,6 +6,8 @@
 **Last updated:** Sat 14 Mar 2026
 **Source:** Incorporates patterns from [Claude Code Best Practices](https://code.claude.com/docs/en/best-practices)
 
+**Touchstone trace:** Gate 2 (session produces correct output — context budget, verification, handoff fidelity) + Gate 3 (session is efficient — lean loading, autonomous windows, minimal Kurt interruptions). Gate 1 check: push protocols enforce security gate before code leaves the session.
+
 ---
 
 ## Principle

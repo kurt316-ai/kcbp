@@ -5,6 +5,8 @@
 **Last updated:** Sat 14 Mar 2026
 **Scope:** Pre-push PII checks. Full security audit and per-tool security considerations are separate deliverables.
 
+**Touchstone trace:** Gate 1 — primary. This guide IS the Gate 1 enforcement mechanism for the build phase. Binary pass/fail: PII or secrets in a public repo = gate failure, full stop.
+
 ---
 
 ## Rule: Never Push PII to Public Repos

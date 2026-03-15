@@ -5,6 +5,8 @@
 **Companion doc:** `archimedes-system-guide-for-kurt.md` (project root) Part 1 has human-readable explanations of these same principles.
 **Last updated:** Sat 14 Mar 2026 1400 PT
 
+**Touchstone trace:** Gate 2 (effective handoff — Claude reads correctly, Kurt scans quickly, Systems parse reliably) + Gate 3 (minimal tokens, right file type, front-loaded for compaction resilience). Gate 1 check: no secrets in file names or paths, no PII in public-facing file structures.
+
 ## When to Load
 
 - Creating or restructuring a markdown file

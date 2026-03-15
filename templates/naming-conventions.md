@@ -5,6 +5,8 @@
 **Audience:** `for-claude` and `for-kurt`
 **Companion doc:** `output/naming-conventions-rationale.md` — explains *why* each convention was chosen.
 
+**Touchstone trace:** Gate 2 (handoff fidelity — unambiguous file identity across Kurt, Claude, and Systems) + Gate 3 (scannable, sortable, zero ramp-up). Gate 1 check: no PII or secrets in filenames. Systems compliance: URL-safe, file-system-safe (kebab-case).
+
 This is the master naming conventions reference for all systems Kurt and Claude use together. Each system (Cowork project folders, Notion, Google Drive, GitHub, scheduled tasks) gets its own section with system-specific rules derived from the shared design principles.
 
 **Part of the three-doc architecture package** (see overview doc, Design Principle #5):

@@ -73,6 +73,23 @@
 | **Feedback loop** | The cycle: project does work → writes lessons-learned → Archimedes reads it → updates best practices → next project benefits. |
 | **Harvest** | When Archimedes-builder reads lessons-learned files from multiple projects and pulls findings into the lessons learned library. |
 
+## Evaluation Framework Terms
+
+| Term | Definition |
+|---|---|
+| **Touchstone** | The master evaluation framework. Three dimensions: Gates (priority stack), Phase (Build/Run), Who (Kurt/Claude/Systems). 3 × 2 × 3 = 18 cells. Every convention traces back to a gate. Owned by Archimedes. Source of truth: `for-claude/ref-5-kurt-design-principles-for-claude.md` (Principle #4). |
+| **Gates** | The three evaluation criteria in strict priority order. Gate 1 must clear before Gate 2 matters. Gate 2 must reach threshold before Gate 3 is pursued. |
+| **Gate 1: Safety & Security** | Binary gate (pass/fail). Two components: Security = unauthorized access or exposure. Safety = authorized agents making harmful mistakes. Nothing advances until it clears. |
+| **Gate 2: Effectiveness** | Threshold gate. Does it work? Does it do the right thing? Must reach minimum viability before optimization begins. |
+| **Gate 3: Efficiency** | Optimization gate. Continuous improvement. The reward for passing Gates 1 and 2. For Kurt, this means approving less and longer autonomous windows. |
+| **Phase** | Build (creating and deploying) or Run (operating and maintaining). The Touchstone questions differ by phase. |
+| **Who** | The three audience types: Kurt (judgment, oversight, design), Claude (constraints, scope, execution), Systems (compatibility, conventions, machine-readability). Different failure modes and mitigations per cell. |
+| **Trust gradient** | The maturity model by which actions graduate from ACK → Soft NACK → Full NACK. Earned by demonstrating Gate 1 and Gate 2 compliance. Graduation can be revoked. |
+| **Blast radius** | The scope of damage if an action goes wrong. Low blast radius → faster NACK graduation. High blast radius → slower graduation, possibly permanent ACK. |
+| **Touchstone trace** | A brief statement at the top of a design doc identifying which gates that doc serves and why. Ensures any Claude session immediately knows the purpose behind the conventions. |
+| **Traceability** | Every convention, SOP, or design decision should trace back to a specific gate. If it can't, it's dead weight or its justification is missing. |
+| **Posture audit** | Research-based review of whether current standards reflect latest best practices. "What does the world know now that we didn't know last month?" |
+
 ## Architecture Terms
 
 | Term | Definition |
@@ -101,7 +118,8 @@ Kurt uses human-readable shorthand that maps to specific Archimedes files and co
 
 | Kurt says | He means | Where it lives |
 |---|---|---|
-| **"ACK" / "NACK"** | Two action protocols. **ACK-based:** "want me to do this?" — assumes inaction, waits for permission. **NACK-based:** "I'll do this unless you stop me" — assumes action, only stops on objection. Kurt's preference: always NACK. When the conversation's purpose is obvious, skip even the NACK statement and just act. | `templates/router-readme-template.md` (Autonomy Rules), web preferences |
+| **"Touchstone"** | The master evaluation framework (3 gates × 2 phases × 3 whos). "Does this pass the Touchstone?" = evaluate through all three dimensions. "Which gate does this serve?" = trace a convention back to its root justification. | `for-claude/ref-5-kurt-design-principles-for-claude.md` (Principle #4) |
+| **"ACK" / "NACK"** | Two action protocols governed by the Touchstone's trust gradient. **ACK-based:** "want me to do this?" — assumes inaction, waits for permission. **NACK-based:** "I'll do this unless you stop me" — assumes action, only stops on objection. Kurt's preference: always NACK. Actions graduate ACK → Soft NACK → Full NACK based on blast radius, reversibility, and track record. | `for-claude/ref-5-kurt-design-principles-for-claude.md` (Trust Gradient), `templates/router-readme-template.md` (Autonomy Rules) |
 | **"SOPs"** (Standard Operating Procedures) | The conventions and procedures for a given domain (git, cleanup, naming, etc.). Not a standalone SOPs document. | Distributed across the relevant guide, reference, or template. "Update the GitHub SOPs" = update git/push conventions in `guides/session-discipline-guide.md`, naming conventions in `templates/naming-conventions.md` §5, etc. |
 | **"Update the GitHub SOPs"** | Update git-related conventions (push process, branch naming, commit messages, etc.) | `guides/session-discipline-guide.md` (git workflow), `templates/naming-conventions.md` §5 (GitHub naming) |
 | **"The naming doc"** | The naming conventions reference | `templates/naming-conventions.md` |
